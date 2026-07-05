@@ -45,15 +45,16 @@
   }
   nav.container{
     display:flex;align-items:center;justify-content:space-between;
-    height:76px;
+    height:88px;
   }
   .logo{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:800;font-size:1.3rem;}
-  .logo img{height:40px;width:auto;}
+  .logo img{height:56px;width:auto;}
   .nav-links{display:flex;align-items:center;gap:36px;}
   .nav-links > li{position:relative;}
   .nav-links > li > a{
     font-weight:600;font-size:0.95rem;color:var(--navy);
     padding:10px 0;display:inline-flex;align-items:center;gap:4px;
+    white-space:nowrap;
   }
   .nav-links > li:hover > a{color:var(--orange);}
   .dropdown{
@@ -74,7 +75,8 @@
   .dropdown li a:hover{background:var(--bg);color:var(--orange);}
   .nav-cta{
     background:var(--orange);color:var(--white);
-    padding:11px 22px;border-radius:8px;font-weight:600;font-size:0.9rem;
+    padding:13px 26px;border-radius:8px;font-weight:600;font-size:0.95rem;
+    white-space:nowrap;
     transition:background 0.15s ease;
   }
   .nav-cta:hover{background:#e2650c;}
@@ -227,7 +229,7 @@
 <header>
   <nav class="container">
     <a href="index.html" class="logo">
-      <img src="images/SparkWhyz_header_logo.png" alt="SparkWhyz">
+      <img src="images/logo-transparent.png" alt="SparkWhyz">
     </a>
     <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
     <ul class="nav-links" id="navLinks">
