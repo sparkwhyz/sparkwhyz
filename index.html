@@ -73,12 +73,14 @@
     display:block;padding:10px 14px;border-radius:6px;font-size:0.9rem;font-weight:500;color:var(--text);
   }
   .dropdown li a:hover{background:var(--bg);color:var(--orange);}
-  .nav-cta{
+  .nav-links > li > a.nav-cta{
     background:var(--orange);color:var(--white);
-    padding:15px 28px;border-radius:8px;font-weight:600;font-size:0.95rem;
+    padding:16px 32px;border-radius:8px;font-weight:600;font-size:0.95rem;
     white-space:nowrap;flex-shrink:0;display:inline-block;
+    min-width:170px;text-align:center;
     transition:background 0.15s ease;
   }
+  .nav-links > li > a.nav-cta:hover{background:#e2650c;}
   .nav-cta:hover{background:#e2650c;}
   .nav-toggle{display:none;background:none;border:none;font-size:1.6rem;color:var(--navy);cursor:pointer;}
 
