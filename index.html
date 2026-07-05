@@ -49,8 +49,8 @@
   }
   .logo{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:800;font-size:1.3rem;}
   .logo img{height:56px;width:auto;}
-  .nav-links{display:flex;align-items:center;gap:36px;}
-  .nav-links > li{position:relative;}
+  .nav-links{display:flex;align-items:center;gap:28px;}
+  .nav-links > li{position:relative;flex-shrink:0;}
   .nav-links > li > a{
     font-weight:600;font-size:0.95rem;color:var(--navy);
     padding:10px 0;display:inline-flex;align-items:center;gap:4px;
@@ -76,7 +76,7 @@
   .nav-cta{
     background:var(--orange);color:var(--white);
     padding:13px 26px;border-radius:8px;font-weight:600;font-size:0.95rem;
-    white-space:nowrap;
+    white-space:nowrap;flex-shrink:0;display:inline-block;
     transition:background 0.15s ease;
   }
   .nav-cta:hover{background:#e2650c;}
@@ -201,23 +201,46 @@
 
   /* RESPONSIVE */
   @media(max-width:900px){
+    body.menu-open{overflow:hidden;}
     .nav-links{
-      position:fixed;top:76px;left:0;right:0;bottom:0;
+      position:fixed;top:0;left:0;right:0;bottom:0;
       background:var(--white);
-      flex-direction:column;align-items:flex-start;
-      padding:24px;gap:0;
+      flex-direction:column;align-items:flex-start;justify-content:center;
+      padding:32px 40px;gap:0;
       transform:translateX(100%);
-      transition:transform 0.25s ease;
+      transition:transform 0.3s ease;
+      z-index:200;
     }
     .nav-links.open{transform:translateX(0);}
-    .nav-links > li{width:100%;}
-    .dropdown{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;display:none;padding-left:12px;}
+    .nav-links > li{width:100%;border-bottom:1px solid #E5E9F0;}
+    .nav-links > li:last-child{border-bottom:none;margin-top:28px;}
+    .nav-links > li > a{
+      font-family:'Sora',sans-serif;font-weight:700;font-size:2.2rem;
+      color:var(--navy);padding:22px 0;width:100%;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .dropdown{
+      position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;
+      display:none;padding:0 0 18px 0;border-radius:0;
+    }
     .nav-links > li.dd-open .dropdown{display:block;}
+    .dropdown li a{padding:12px 0;font-size:1.1rem;}
+    .nav-links > li:last-child > a{
+      background:var(--orange);color:var(--white);
+      padding:16px 24px;border-radius:8px;font-size:1.1rem;
+      justify-content:center;
+    }
+    .nav-close{
+      display:block;position:fixed;top:26px;right:24px;z-index:210;
+      background:none;border:none;font-size:2rem;color:var(--navy);cursor:pointer;
+      line-height:1;
+    }
     .nav-toggle{display:block;}
     .hero h1{font-size:2.3rem;}
     .mission-grid,.story-grid,.involved-grid,.footer-grid{grid-template-columns:1fr;}
     .story-grid{gap:32px;}
   }
+  .nav-close{display:none;}
   @media(prefers-reduced-motion:reduce){
     .hero::before{animation:none;}
     *{transition:none !important;}
@@ -231,16 +254,17 @@
     <a href="index.html" class="logo">
       <img src="images/logo-transparent.png" alt="SparkWhyz">
     </a>
-    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
+    <button class="nav-close" aria-label="Close menu">&times;</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About &#9662;</a>
+      <li><a href="about.html">About <span>&#9662;</span></a>
         <ul class="dropdown">
           <li><a href="about.html#story">Our Story</a></li>
           <li><a href="about.html#team">Our Team</a></li>
         </ul>
       </li>
-      <li><a href="get-involved.html">Get Involved &#9662;</a>
+      <li><a href="get-involved.html">Get Involved <span>&#9662;</span></a>
         <ul class="dropdown">
           <li><a href="get-involved.html#pledge">Sign the Pledge</a></li>
           <li><a href="get-involved.html#sponsor">Sponsor a Classroom</a></li>
@@ -380,8 +404,14 @@
 
 <script>
   const toggle = document.querySelector('.nav-toggle');
+  const closeBtn = document.querySelector('.nav-close');
   const links = document.getElementById('navLinks');
-  toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+  function openMenu(){ links.classList.add('open'); document.body.classList.add('menu-open'); }
+  function closeMenu(){ links.classList.remove('open'); document.body.classList.remove('menu-open'); }
+
+  toggle.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
 
   // mobile dropdown tap support
   document.querySelectorAll('.nav-links > li > a').forEach(a => {
@@ -389,6 +419,8 @@
       if (window.innerWidth <= 900 && a.parentElement.querySelector('.dropdown')) {
         e.preventDefault();
         a.parentElement.classList.toggle('dd-open');
+      } else if (window.innerWidth <= 900) {
+        closeMenu();
       }
     });
   });
