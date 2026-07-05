@@ -83,6 +83,13 @@
   .nav-links > li > a.nav-cta:hover{background:#e2650c;}
   .nav-cta:hover{background:#e2650c;}
   .nav-toggle{display:none;background:none;border:none;font-size:1.6rem;color:var(--navy);cursor:pointer;}
+  .theme-toggle{
+    background:none;border:1px solid #CBD5E1;color:var(--navy);
+    width:40px;height:40px;border-radius:8px;font-size:1.1rem;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;transition:background 0.15s ease;
+  }
+  .theme-toggle:hover{background:var(--bg);}
 
   /* HERO */
   .hero{
@@ -232,6 +239,12 @@
       padding:16px 24px;border-radius:8px;font-size:1.1rem;
       justify-content:center;
     }
+    .nav-links .theme-toggle{
+      width:auto;height:auto;border:none;justify-content:flex-start;
+      padding:18px 0;font-size:1.15rem;font-weight:600;gap:10px;
+      color:var(--navy);
+    }
+    .nav-links .theme-toggle::after{content:" Dark Mode";font-family:'Inter',sans-serif;font-size:1.05rem;}
     .nav-close{
       display:block;position:fixed;top:26px;right:24px;z-index:210;
       background:none;border:none;font-size:2rem;color:var(--navy);cursor:pointer;
@@ -243,6 +256,36 @@
     .story-grid{gap:32px;}
   }
   .nav-close{display:none;}
+
+  /* DARK MODE */
+  body.dark-mode{background:#0B1D30;color:#E2E8F0;}
+  body.dark-mode header{background:#0F2740;border-bottom-color:rgba(255,255,255,0.08);}
+  body.dark-mode .logo{color:#E2E8F0;}
+  body.dark-mode .nav-links > li > a{color:#E2E8F0;}
+  body.dark-mode .theme-toggle{border-color:rgba(255,255,255,0.25);color:#E2E8F0;}
+  body.dark-mode .theme-toggle:hover{background:rgba(255,255,255,0.08);}
+  body.dark-mode .dropdown{background:#132B44;box-shadow:0 12px 28px rgba(0,0,0,0.45);}
+  body.dark-mode .dropdown li a{color:#E2E8F0;}
+  body.dark-mode .dropdown li a:hover{background:rgba(255,255,255,0.06);}
+  body.dark-mode .mission{background:#0B1D30;}
+  body.dark-mode .mission-card{background:#132B44;box-shadow:none;}
+  body.dark-mode .mission-card h3{color:#FFFFFF;}
+  body.dark-mode .mission-card p{color:#94A3B8;}
+  body.dark-mode .story{background:#0B1D30;}
+  body.dark-mode .story h2{color:#FFFFFF;}
+  body.dark-mode .story p{color:#94A3B8;}
+  body.dark-mode .involved{background:#0B1D30;}
+  body.dark-mode .involved-head h2{color:#FFFFFF;}
+  body.dark-mode .involved-head p{color:#94A3B8;}
+  body.dark-mode .involved-card{background:#132B44;}
+  body.dark-mode .involved-card h3{color:#FFFFFF;}
+  body.dark-mode .involved-card p{color:#94A3B8;}
+  @media(max-width:900px){
+    body.dark-mode .nav-links{background:#0F2740;}
+    body.dark-mode .nav-links > li{border-bottom-color:rgba(255,255,255,0.08);}
+    body.dark-mode .nav-links > li > a{color:#E2E8F0;}
+    body.dark-mode .nav-close{color:#E2E8F0;}
+  }
   @media(prefers-reduced-motion:reduce){
     .hero::before{animation:none;}
     *{transition:none !important;}
@@ -275,6 +318,7 @@
       </li>
       <li><a href="news.html">News</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle dark mode">&#9789;</button></li>
       <li><a href="get-involved.html#pledge" class="nav-cta">Sign the Pledge</a></li>
     </ul>
   </nav>
@@ -426,6 +470,19 @@
       }
     });
   });
+
+  // dark mode
+  const themeBtn = document.getElementById('themeToggleDesktop');
+  function setTheme(dark){
+    document.body.classList.toggle('dark-mode', dark);
+    themeBtn.textContent = dark ? '\u2600' : '\u263D';
+    try{ localStorage.setItem('sparkwhyz-theme', dark ? 'dark' : 'light'); }catch(e){}
+  }
+  let saved = null;
+  try{ saved = localStorage.getItem('sparkwhyz-theme'); }catch(e){}
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(saved ? saved === 'dark' : prefersDark);
+  themeBtn.addEventListener('click', () => setTheme(!document.body.classList.contains('dark-mode')));
 </script>
 
 </body>
