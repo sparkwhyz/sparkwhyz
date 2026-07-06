@@ -630,3 +630,54 @@ body.dark-mode .modal-close:hover{background:rgba(255,255,255,0.08);color:#FFFFF
 .modal-close{
   z-index:10;
 }
+/* FINAL MOBILE MENU TEXT ALIGNMENT FIX */
+@media(max-width:900px){
+  .nav-links{
+    align-items:center !important;
+    justify-content:flex-start !important;
+    padding:96px 24px 40px !important;
+    overflow-y:auto;
+    text-align:center;
+  }
+
+  .nav-links > li{
+    width:100%;
+    max-width:360px;
+    margin:0 auto;
+    text-align:center;
+  }
+
+  .nav-links > li > a{
+    width:100%;
+    justify-content:center !important;
+    text-align:center !important;
+    display:flex !important;
+    gap:10px;
+  }
+
+  .dropdown-wrap{
+    width:100%;
+  }
+
+  .dropdown{
+    width:100% !important;
+    left:auto !important;
+    right:auto !important;
+    transform:none !important;
+    text-align:center !important;
+  }
+
+  .dropdown li{
+    width:100%;
+    text-align:center;
+  }
+
+  .dropdown li a{
+    width:100%;
+    justify-content:center !important;
+    text-align:center !important;
+    display:flex !important;
+    padding:10px 8px !important;
+    margin:0 auto;
+  }
+}
