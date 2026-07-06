@@ -681,3 +681,84 @@ body.dark-mode .modal-close:hover{background:rgba(255,255,255,0.08);color:#FFFFF
     margin:0 auto;
   }
 }
+/* HARD FIX: MOBILE DROPDOWN CENTERING + ARROW RESET */
+@media(max-width:900px){
+
+  .nav-links{
+    align-items:center !important;
+    justify-content:flex-start !important;
+    padding:96px 24px 40px !important;
+    text-align:center !important;
+  }
+
+  .nav-links > li{
+    width:100% !important;
+    max-width:380px !important;
+    margin:0 auto !important;
+    text-align:center !important;
+  }
+
+  .dropdown-wrap{
+    width:100% !important;
+    position:relative !important;
+    display:grid !important;
+    grid-template-rows:0fr !important;
+    overflow:hidden !important;
+  }
+
+  .nav-links > li.dd-open .dropdown-wrap{
+    grid-template-rows:1fr !important;
+  }
+
+  .dropdown{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    transform:none !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    margin:0 auto !important;
+    padding:8px 0 14px !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    box-shadow:none !important;
+    border-radius:12px !important;
+    background:rgba(248,250,252,0.9) !important;
+    text-align:center !important;
+  }
+
+  .dropdown li,
+  .dropdown li a{
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 auto !important;
+    text-align:center !important;
+  }
+
+  .dropdown li a{
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    padding:10px 12px !important;
+    font-family:'Inter', sans-serif !important;
+    font-size:1rem !important;
+    font-weight:600 !important;
+    line-height:1.35 !important;
+    white-space:normal !important;
+  }
+
+  /* stop touch hover from leaving arrow upside down */
+  .nav-links > li:hover .chevron{
+    transform:none !important;
+  }
+
+  .nav-links > li.dd-open .chevron{
+    transform:rotate(180deg) !important;
+  }
+
+  body.dark-mode .dropdown{
+    background:rgba(19,43,68,0.9) !important;
+  }
+}
