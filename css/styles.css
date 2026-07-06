@@ -530,3 +530,67 @@ body.dark-mode .modal-close:hover{background:rgba(255,255,255,0.08);color:#FFFFF
 @media(prefers-reduced-motion:reduce){
   .modal-overlay, .modal-card{transition:none;}
 }
+/* ONE CLEAN MOBILE DROPDOWN FIX */
+@media (max-width: 900px) {
+  .nav-links {
+    align-items: center;
+    justify-content: flex-start;
+    padding: 96px 24px 40px;
+    overflow-y: auto;
+    text-align: center;
+  }
+
+  .nav-links > li {
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .nav-links > li > a {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .dropdown-wrap {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .dropdown {
+    position: static;
+    left: auto;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .dropdown li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .dropdown li a {
+    width: 100%;
+    display: block;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .nav-links > li:hover .chevron {
+    transform: none;
+  }
+
+  .nav-links > li.dd-open .chevron {
+    transform: rotate(180deg);
+  }
+}
