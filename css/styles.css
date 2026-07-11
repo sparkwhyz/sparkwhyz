@@ -613,7 +613,7 @@ body.dark-mode .modal-close:hover{background:rgba(255,255,255,0.08);color:#FFFFF
 
 .partners-section{
     padding:90px 0;
-    background:var(--bg);
+    background:transparent;
 }
 
 .partners-grid{
@@ -627,7 +627,6 @@ body.dark-mode .modal-close:hover{background:rgba(255,255,255,0.08);color:#FFFFF
 }
 
 .partner-card{
-    background:var(--white);
     border-radius:20px;
     padding:40px 35px;
     text-decoration:none;
