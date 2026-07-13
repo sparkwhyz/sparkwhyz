@@ -219,11 +219,12 @@
          Currently posts to our Google Form. Replace the action URL and
          input "name" attributes with a Mailchimp (or other ESP) endpoint
          later; layout and styling stay the same. -->
-    <form class="signup-form" action="REPLACE_WITH_GOOGLE_FORM_ACTION_URL" method="POST" target="_blank">
-      <input type="text" name="entry.REPLACE_NAME_FIELD_ID" placeholder="Your name" required>
-      <input type="email" name="entry.REPLACE_EMAIL_FIELD_ID" placeholder="Your email" required>
+    <form class="signup-form" id="signupForm" action="REPLACE_WITH_GOOGLE_FORM_ACTION_URL" method="POST" target="_blank" novalidate>
+      <input type="text" id="signupName" name="entry.REPLACE_NAME_FIELD_ID" placeholder="Your name" required>
+      <input type="email" id="signupEmail" name="entry.REPLACE_EMAIL_FIELD_ID" placeholder="Your email" required>
       <button type="submit">Join the List</button>
     </form>
+    <p class="signup-error" id="signupError" style="display:none;"></p>
     <p class="signup-note">We'll never share your email. Unsubscribe anytime.</p>
   </div>
 </section>
@@ -246,15 +247,15 @@
       <div>
         <h4>Partners</h4>
         <ul>
-          <li><a href="#">Laguna Beach Fire Dept.</a></li>
-          <li><a href="#">Local Schools</a></li>
+          <li><a href="fire-department.html">Laguna Beach Fire Dept.</a></li>
+          <li><a href="schools.html">Local Schools</a></li>
         </ul>
       </div>
       <div>
         <h4>Contact</h4>
         <ul>
           <li><a href="contact.html">Get in touch</a></li>
-          <li><a href="#">Instagram</a></li>
+          <li><a href="https://www.instagram.com/sparkwhyz/" target="_blank" rel="noopener">Instagram</a></li>
         </ul>
       </div>
     </div>
