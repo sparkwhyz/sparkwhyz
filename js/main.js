@@ -194,3 +194,58 @@ if ('IntersectionObserver' in window && revealEls.length){
 } else {
   revealEls.forEach(el => el.classList.add('in-view'));
 }
+
+/* ---------- Founding Readers signup: name formatting + email validation ---------- */
+/* Lowercase name particles (only lowercased when NOT the first word of the name) */
+const NAME_PARTICLES = ['de','del','de la','la','le','van','von','der','den','di','da','do','dos','das','du','ter','ten','bin','ibn','al','el','y'];
+
+function formatName(raw){
+  const words = raw.trim().replace(/\s+/g, ' ').split(' ');
+  return words.map((word, i) => {
+    const lower = word.toLowerCase();
+    if (i > 0 && NAME_PARTICLES.includes(lower)) return lower;
+    // capitalize first letter after start of word, hyphen, or apostrophe (e.g. Smith-Jones, O'Brien)
+    return lower.replace(/(^|[-'])([a-z])/g, (m, sep, ch) => sep + ch.toUpperCase());
+  }).join(' ');
+}
+
+function isValidEmail(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+}
+
+const signupForm = document.getElementById('signupForm');
+if (signupForm){
+  const nameInput = document.getElementById('signupName');
+  const emailInput = document.getElementById('signupEmail');
+  const errorEl = document.getElementById('signupError');
+
+  function showError(msg){
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.style.display = 'block';
+  }
+  function clearError(){
+    if (!errorEl) return;
+    errorEl.style.display = 'none';
+    errorEl.textContent = '';
+  }
+
+  signupForm.addEventListener('submit', (e) => {
+    clearError();
+
+    if (nameInput && !nameInput.value.trim()){
+      e.preventDefault();
+      showError('Please enter your name.');
+      return;
+    }
+    if (emailInput && !isValidEmail(emailInput.value)){
+      e.preventDefault();
+      showError('Please enter a valid email address.');
+      return;
+    }
+    if (nameInput){
+      nameInput.value = formatName(nameInput.value);
+    }
+    // form submits normally from here with the corrected name value
+  });
+}
