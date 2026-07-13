@@ -175,11 +175,6 @@
     object-fit:cover;
     display:block;
 }
-    aspect-ratio:4/3;border-radius:16px;
-    background:linear-gradient(135deg,var(--navy),#274b74);
-    display:flex;align-items:center;justify-content:center;
-    color:rgba(255,255,255,0.5);font-size:0.9rem;font-weight:500;
-  }
   .section-eyebrow{color:var(--orange);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;}
   .story h2{font-size:2.1rem;color:var(--navy);margin-bottom:20px;}
   .story p{color:var(--muted);margin-bottom:18px;}
@@ -211,9 +206,6 @@
     max-width:480px;margin:0 auto;
     display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
   }
-  /* Founding Readers signup: currently points to our Google Form.
-     Swap the <form action> below for a Mailchimp endpoint later
-     without touching layout or styles. */
   .signup-form input[type=text],
   .signup-form input[type=email]{
     flex:1;min-width:200px;padding:14px 18px;border-radius:8px;border:none;font-size:0.95rem;font-family:'Inter',sans-serif;
@@ -224,6 +216,10 @@
   }
   .signup-form button:hover{background:#e2650c;}
   .signup-note{font-size:0.8rem;color:#94A3B8;margin-top:26px;line-height:1.5;}
+  .signup-error{
+    font-size:0.85rem;color:#FCA5A5;margin-top:14px;font-weight:600;
+    max-width:480px;margin-left:auto;margin-right:auto;
+  }
 
   /* FOOTER */
   footer{background:#0f2740;color:#CBD5E1;padding:60px 0 30px;font-size:0.9rem;}
