@@ -1,24 +1,19 @@
 /* =========================================================
    SPARKWHYZ MAIN JAVASCRIPT
-   Mobile navigation, dark mode, chapter popup, and animations
+   Mobile navigation, dropdowns, dark mode, popup, and reveals
    ========================================================= */
 
 const navToggle = document.getElementById("navToggle");
 const navLinks = document.getElementById("navLinks");
 const chapterModal = document.getElementById("chapterModal");
+const themeButton = document.getElementById("themeToggleDesktop");
+
 
 /* =========================================================
-   MOBILE NAVIGATION
+   MOBILE MENU
    ========================================================= */
 
-function closeMenu() {
-  if (!navLinks || !navToggle) return;
-
-  navLinks.classList.remove("open");
-  navToggle.classList.remove("active");
-  navToggle.setAttribute("aria-expanded", "false");
-  document.body.classList.remove("menu-open");
-
+function closeMobileDropdowns() {
   document
     .querySelectorAll(".nav-links > li.dd-open")
     .forEach((item) => {
@@ -27,19 +22,34 @@ function closeMenu() {
 }
 
 function openMenu() {
-  if (!navLinks || !navToggle) return;
+  if (!navToggle || !navLinks) return;
 
   closeChapterModal(false);
 
   navLinks.classList.add("open");
   navToggle.classList.add("active");
   navToggle.setAttribute("aria-expanded", "true");
+
   document.body.classList.add("menu-open");
+}
+
+function closeMenu() {
+  if (!navToggle || !navLinks) return;
+
+  navLinks.classList.remove("open");
+  navToggle.classList.remove("active");
+  navToggle.setAttribute("aria-expanded", "false");
+
+  document.body.classList.remove("menu-open");
+
+  closeMobileDropdowns();
 }
 
 if (navToggle && navLinks) {
   navToggle.addEventListener("click", () => {
-    if (navLinks.classList.contains("open")) {
+    const menuIsOpen = navLinks.classList.contains("open");
+
+    if (menuIsOpen) {
       closeMenu();
     } else {
       openMenu();
@@ -47,8 +57,9 @@ if (navToggle && navLinks) {
   });
 }
 
+
 /* =========================================================
-   MOBILE DROPDOWNS
+   MOBILE DROPDOWN MENUS
    ========================================================= */
 
 document
@@ -82,6 +93,7 @@ document
     });
   });
 
+
 document
   .querySelectorAll(".dropdown a")
   .forEach((dropdownLink) => {
@@ -92,11 +104,13 @@ document
     });
   });
 
+
 window.addEventListener("resize", () => {
   if (window.innerWidth > 900) {
     closeMenu();
   }
 });
+
 
 /* =========================================================
    DARK MODE
@@ -118,14 +132,16 @@ const sunIcon = `
     />
 
     <path
-      d="M12 2V4.5
-         M12 19.5V22
-         M4.93 4.93L6.7 6.7
-         M17.3 17.3L19.07 19.07
-         M2 12H4.5
-         M19.5 12H22
-         M4.93 19.07L6.7 17.3
-         M17.3 6.7L19.07 4.93"
+      d="
+        M12 2V4.5
+        M12 19.5V22
+        M4.93 4.93L6.7 6.7
+        M17.3 17.3L19.07 19.07
+        M2 12H4.5
+        M19.5 12H22
+        M4.93 19.07L6.7 17.3
+        M17.3 6.7L19.07 4.93
+      "
       stroke="currentColor"
       stroke-width="1.8"
       stroke-linecap="round"
@@ -142,21 +158,19 @@ const moonIcon = `
     aria-hidden="true"
   >
     <path
-      d="M21 14.4
-         C19.6 18.5 15.7 21.5 11.1 21.5
-         C5.8 21.5 1.5 17.2 1.5 11.9
-         C1.5 7.3 4.5 3.4 8.6 2
-         C7.8 3.3 7.4 4.8 7.4 6.4
-         C7.4 11.9 12.1 16.6 17.6 16.6
-         C19.2 16.6 20.7 16.2 21 14.4Z"
+      d="
+        M21 14.4
+        C19.6 18.5 15.7 21.5 11.1 21.5
+        C5.8 21.5 1.5 17.2 1.5 11.9
+        C1.5 7.3 4.5 3.4 8.6 2
+        C7.8 3.3 7.4 4.8 7.4 6.4
+        C7.4 11.9 12.1 16.6 17.6 16.6
+        C19.2 16.6 20.7 16.2 21 14.4Z
+      "
       fill="currentColor"
     />
   </svg>
 `;
-
-const themeButton = document.getElementById(
-  "themeToggleDesktop"
-);
 
 function applyTheme(useDarkMode) {
   document.body.classList.toggle(
@@ -166,17 +180,20 @@ function applyTheme(useDarkMode) {
 
   if (!themeButton) return;
 
-  const icon = themeButton.querySelector(".theme-icon");
-  const label = themeButton.querySelector(".theme-label");
+  const themeIcon =
+    themeButton.querySelector(".theme-icon");
 
-  if (icon) {
-    icon.innerHTML = useDarkMode
+  const themeLabel =
+    themeButton.querySelector(".theme-label");
+
+  if (themeIcon) {
+    themeIcon.innerHTML = useDarkMode
       ? sunIcon
       : moonIcon;
   }
 
-  if (label) {
-    label.textContent = useDarkMode
+  if (themeLabel) {
+    themeLabel.textContent = useDarkMode
       ? "Light Mode"
       : "Dark Mode";
   }
@@ -234,6 +251,7 @@ if (themeButton) {
   });
 }
 
+
 /* =========================================================
    CHAPTER LEADER POPUP
    ========================================================= */
@@ -287,11 +305,6 @@ if (chapterModal) {
   const modalButton =
     chapterModal.querySelector(".modal-btn");
 
-  chapterModal.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
   let popupWasSeen = false;
 
   try {
@@ -303,14 +316,19 @@ if (chapterModal) {
     popupWasSeen = false;
   }
 
+  chapterModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
   if (!popupWasSeen) {
     window.setTimeout(() => {
-      if (
-        !document.body.classList.contains(
+      const menuIsOpen =
+        document.body.classList.contains(
           "menu-open"
-        ) &&
-        !chapterModal.classList.contains("show")
-      ) {
+        );
+
+      if (!menuIsOpen) {
         openChapterModal();
       }
     }, 1200);
@@ -338,6 +356,7 @@ if (chapterModal) {
   );
 }
 
+
 /* =========================================================
    ESCAPE KEY
    ========================================================= */
@@ -359,6 +378,7 @@ document.addEventListener("keydown", (event) => {
     closeChapterModal(true);
   }
 });
+
 
 /* =========================================================
    SCROLL REVEAL
@@ -395,12 +415,35 @@ if (
   });
 }
 
+
+/* =========================================================
+   CURRENT PAGE LINK
+   ========================================================= */
+
+const currentFile =
+  window.location.pathname.split("/").pop() ||
+  "index.html";
+
+document
+  .querySelectorAll(".nav-links a")
+  .forEach((link) => {
+    const linkFile =
+      link.getAttribute("href")?.split("#")[0];
+
+    if (linkFile === currentFile) {
+      link.setAttribute("aria-current", "page");
+    }
+  });
+
+
 /* =========================================================
    FORMS
-
-   Founding Readers, pledge, contact, and chapter applications
-   are intentionally not connected here yet.
-
-   They will be connected directly to Google Sheets later
-   without sending visitors to a Google Form.
    ========================================================= */
+
+/*
+  Founding Readers, pledge, contact, and chapter forms
+  are intentionally not connected yet.
+
+  They will submit directly from SparkWhyz.org
+  to Google Sheets without opening Google Forms.
+*/
