@@ -1,12 +1,15 @@
 /* =========================================================
    SPARKWHYZ MAIN JAVASCRIPT
-   Mobile navigation, dropdowns, dark mode, popup, and reveals
+   Navigation, dark mode, popup, animations, and forms
    ========================================================= */
 
 const navToggle = document.getElementById("navToggle");
 const navLinks = document.getElementById("navLinks");
 const chapterModal = document.getElementById("chapterModal");
 const themeButton = document.getElementById("themeToggleDesktop");
+
+const FOUNDING_READERS_URL =
+  "https://script.google.com/macros/s/AKfycbzE3uEk4XQtkb8qyEXPNrhavnNuOdf-xDej9qfDXaaHXr0CM6zMC1YZZFA1C1SL5hdo/exec";
 
 
 /* =========================================================
@@ -93,7 +96,6 @@ document
     });
   });
 
-
 document
   .querySelectorAll(".dropdown a")
   .forEach((dropdownLink) => {
@@ -103,7 +105,6 @@ document
       }
     });
   });
-
 
 window.addEventListener("resize", () => {
   if (window.innerWidth > 900) {
@@ -427,8 +428,11 @@ const currentFile =
 document
   .querySelectorAll(".nav-links a")
   .forEach((link) => {
-    const linkFile =
-      link.getAttribute("href")?.split("#")[0];
+    const href = link.getAttribute("href");
+
+    if (!href) return;
+
+    const linkFile = href.split("#")[0];
 
     if (linkFile === currentFile) {
       link.setAttribute("aria-current", "page");
@@ -437,13 +441,291 @@ document
 
 
 /* =========================================================
-   FORMS
+   FOUNDING READERS
    ========================================================= */
 
-/*
-  Founding Readers, pledge, contact, and chapter forms
-  are intentionally not connected yet.
+const nameParticles = [
+  "de",
+  "del",
+  "la",
+  "le",
+  "van",
+  "von",
+  "der",
+  "den",
+  "di",
+  "da",
+  "do",
+  "dos",
+  "das",
+  "du",
+  "ter",
+  "ten",
+  "bin",
+  "ibn",
+  "al",
+  "el",
+  "y"
+];
 
-  They will submit directly from SparkWhyz.org
-  to Google Sheets without opening Google Forms.
-*/
+function formatFoundingReaderName(rawName) {
+  return rawName
+    .trim()
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .map((word, index) => {
+      const lower = word.toLowerCase();
+
+      if (
+        index > 0 &&
+        nameParticles.includes(lower)
+      ) {
+        return lower;
+      }
+
+      return lower.replace(
+        /(^|[-'])([a-z])/g,
+        (match, separator, letter) =>
+          separator + letter.toUpperCase()
+      );
+    })
+    .join(" ");
+}
+
+function isValidFoundingReaderEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(
+    email.trim()
+  );
+}
+
+function createFoundingReadersFrame() {
+  let frame = document.getElementById(
+    "foundingReadersFrame"
+  );
+
+  if (frame) return frame;
+
+  frame = document.createElement("iframe");
+
+  frame.id = "foundingReadersFrame";
+  frame.name = "foundingReadersFrame";
+  frame.title = "Founding Readers submission";
+  frame.style.display = "none";
+
+  document.body.appendChild(frame);
+
+  return frame;
+}
+
+function showFoundingReadersMessage(
+  form,
+  message,
+  type
+) {
+  let messageElement = form.parentElement.querySelector(
+    ".founding-readers-message"
+  );
+
+  if (!messageElement) {
+    messageElement = document.createElement("div");
+    messageElement.className =
+      "founding-readers-message";
+
+    form.insertAdjacentElement(
+      "afterend",
+      messageElement
+    );
+  }
+
+  messageElement.textContent = message;
+
+  messageElement.style.display = "block";
+  messageElement.style.marginTop = "18px";
+  messageElement.style.padding = "14px 16px";
+  messageElement.style.borderRadius = "9px";
+  messageElement.style.fontWeight = "700";
+  messageElement.style.fontSize = "0.9rem";
+  messageElement.style.textAlign = "center";
+
+  if (type === "success") {
+    messageElement.style.background =
+      "rgba(46, 125, 50, 0.18)";
+    messageElement.style.border =
+      "1px solid rgba(46, 125, 50, 0.4)";
+    messageElement.style.color = "#dcfce7";
+  } else {
+    messageElement.style.background =
+      "rgba(220, 38, 38, 0.16)";
+    messageElement.style.border =
+      "1px solid rgba(248, 113, 113, 0.4)";
+    messageElement.style.color = "#fecaca";
+  }
+}
+
+const foundingReaderForms =
+  document.querySelectorAll(
+    'form[data-founding-readers="true"]'
+  );
+
+let activeFoundingReadersForm = null;
+let foundingReadersTimeout = null;
+
+foundingReaderForms.forEach((form) => {
+  const nameInput = form.querySelector(
+    '[name="name"]'
+  );
+
+  const emailInput = form.querySelector(
+    '[name="email"]'
+  );
+
+  const submitButton = form.querySelector(
+    'button[type="submit"]'
+  );
+
+  if (
+    !nameInput ||
+    !emailInput ||
+    !submitButton
+  ) {
+    return;
+  }
+
+  createFoundingReadersFrame();
+
+  form.action = FOUNDING_READERS_URL;
+  form.method = "POST";
+  form.target = "foundingReadersFrame";
+
+  form.addEventListener("submit", (event) => {
+    const formattedName =
+      formatFoundingReaderName(nameInput.value);
+
+    const formattedEmail =
+      emailInput.value.trim().toLowerCase();
+
+    if (!formattedName) {
+      event.preventDefault();
+
+      showFoundingReadersMessage(
+        form,
+        "Please enter your first and last name.",
+        "error"
+      );
+
+      nameInput.focus();
+      return;
+    }
+
+    if (!isValidFoundingReaderEmail(formattedEmail)) {
+      event.preventDefault();
+
+      showFoundingReadersMessage(
+        form,
+        "Please enter a valid email address.",
+        "error"
+      );
+
+      emailInput.focus();
+      return;
+    }
+
+    nameInput.value = formattedName;
+    emailInput.value = formattedEmail;
+
+    activeFoundingReadersForm = form;
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Joining...";
+
+    showFoundingReadersMessage(
+      form,
+      "Submitting your information...",
+      "success"
+    );
+
+    window.clearTimeout(
+      foundingReadersTimeout
+    );
+
+    foundingReadersTimeout =
+      window.setTimeout(() => {
+        if (
+          activeFoundingReadersForm !== form
+        ) {
+          return;
+        }
+
+        submitButton.disabled = false;
+        submitButton.textContent =
+          "Join the List";
+
+        showFoundingReadersMessage(
+          form,
+          "The submission is taking longer than expected. Please check your connection and try again.",
+          "error"
+        );
+
+        activeFoundingReadersForm = null;
+      }, 15000);
+  });
+});
+
+
+/* =========================================================
+   APPS SCRIPT RESPONSE
+   ========================================================= */
+
+window.addEventListener("message", (event) => {
+  const data = event.data;
+
+  if (
+    !data ||
+    data.type !==
+      "sparkwhyz-founding-readers"
+  ) {
+    return;
+  }
+
+  if (!activeFoundingReadersForm) {
+    return;
+  }
+
+  window.clearTimeout(
+    foundingReadersTimeout
+  );
+
+  const form = activeFoundingReadersForm;
+
+  const submitButton = form.querySelector(
+    'button[type="submit"]'
+  );
+
+  const payload = data.payload || {};
+
+  if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.textContent =
+      "Join the List";
+  }
+
+  if (payload.success) {
+    showFoundingReadersMessage(
+      form,
+      payload.message ||
+        "Thank you for joining the Founding Readers!",
+      "success"
+    );
+
+    form.reset();
+  } else {
+    showFoundingReadersMessage(
+      form,
+      payload.message ||
+        "Something went wrong. Please try again.",
+      "error"
+    );
+  }
+
+  activeFoundingReadersForm = null;
+});
