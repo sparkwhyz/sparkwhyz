@@ -580,13 +580,7 @@
           <article class="news-card reveal">
 
             <div class="news-thumb">
-
-              <!-- Replace this placeholder later with:
-              <img src="images/turn-in-2026.jpg" alt="SparkWhyz fireworks turn-in event">
-              -->
-
               Event Photo Coming Soon
-
             </div>
 
             <div class="news-body">
@@ -616,13 +610,7 @@
           <article class="news-card reveal reveal-delay-1">
 
             <div class="news-thumb">
-
-              <!-- Replace this placeholder later with:
-              <img src="images/citywide-turn-in.jpg" alt="Citywide fireworks turn-in event">
-              -->
-
               Coverage Photo Coming Soon
-
             </div>
 
             <div class="news-body">
@@ -652,13 +640,7 @@
           <article class="news-card reveal reveal-delay-2">
 
             <div class="news-thumb">
-
-              <!-- Replace this placeholder later with:
-              <img src="images/founding-story.jpg" alt="SparkWhyz founding story">
-              -->
-
               Founding Story Photo Coming Soon
-
             </div>
 
             <div class="news-body">
@@ -824,13 +806,6 @@
                   r="2.5"
                   fill="currentColor"
                 />
-
-                <path
-                  d="M18 29C19.8 30.2 21.8 30.8 24 30.8C26.2 30.8 28.2 30.2 30 29"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
               </svg>
 
             </div>
@@ -871,13 +846,14 @@
         </h2>
 
         <p>
-          Be the first to know when our children's book launches,
+          Be the first to know when our children’s book launches,
           plus receive updates about events and classroom sponsorships.
         </p>
 
         <form
           class="signup-form"
           id="signupForm"
+          data-founding-readers="true"
           novalidate
         >
 
@@ -885,33 +861,45 @@
             type="text"
             id="signupName"
             name="name"
-            placeholder="Your name"
+            placeholder="First and last name"
             autocomplete="name"
-            disabled
+            aria-label="First and last name"
+            required
           >
 
           <input
             type="email"
             id="signupEmail"
             name="email"
-            placeholder="Your email"
+            placeholder="Email address"
             autocomplete="email"
-            disabled
+            aria-label="Email address"
+            required
           >
 
-          <button
-            type="button"
-            disabled
+          <input
+            type="text"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            style="
+              position:absolute;
+              left:-9999px;
+              width:1px;
+              height:1px;
+              opacity:0;
+            "
           >
+
+          <button type="submit">
             Join the List
           </button>
 
         </form>
 
         <p class="signup-note">
-          Signup is temporarily disabled while we connect it
-          directly to Google Sheets. Visitors will not be sent
-          to a Google Form.
+          We’ll never share your email. Unsubscribe anytime.
         </p>
 
       </div>
@@ -1102,7 +1090,7 @@
       </h2>
 
       <p>
-        Help bring SparkWhyz's fire-safety mission
+        Help bring SparkWhyz’s fire-safety mission
         to your school or neighborhood. We are looking
         for motivated students who are ready to lead.
       </p>
