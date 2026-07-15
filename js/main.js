@@ -1,251 +1,178 @@
-/* ---------- Mobile menu ---------- */
-const toggle = document.getElementById('navToggle');
-const links = document.getElementById('navLinks');
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+const chapterModal = document.getElementById("chapterModal");
 
-function closeChapterModalOnly(){
-  const chapterModal = document.getElementById('chapterModal');
-  if (chapterModal) {
-    chapterModal.classList.remove('show');
-  }
-}
-
-function openMenu(){
-  closeChapterModalOnly();
-
-  if (!links) return;
-
-  links.classList.add('open');
-  document.body.classList.add('menu-open');
-
-  if (toggle){
-    toggle.classList.add('active');
-    toggle.setAttribute('aria-expanded', 'true');
-  }
-}
-
-function closeMenu(){
-  if (!links) return;
-
-  links.classList.remove('open');
-  document.body.classList.remove('menu-open');
-
-  if (toggle){
-    toggle.classList.remove('active');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
-
-  document.querySelectorAll('.nav-links > li.dd-open').forEach(li => {
-    li.classList.remove('dd-open');
+function closeMenu() {
+  if (!navLinks || !navToggle) return;
+  navLinks.classList.remove("open");
+  navToggle.classList.remove("active");
+  navToggle.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("menu-open");
+  document.querySelectorAll(".nav-links > li.dd-open").forEach((item) => {
+    item.classList.remove("dd-open");
   });
 }
 
-if (toggle && links){
-  toggle.addEventListener('click', () => {
-    if (links.classList.contains('open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+function openMenu() {
+  if (!navLinks || !navToggle) return;
+  closeChapterModal(false);
+  navLinks.classList.add("open");
+  navToggle.classList.add("active");
+  navToggle.setAttribute("aria-expanded", "true");
+  document.body.classList.add("menu-open");
+}
+
+if (navToggle && navLinks) {
+  navToggle.addEventListener("click", () => {
+    navLinks.classList.contains("open") ? closeMenu() : openMenu();
   });
 }
 
-/* ---------- Mobile dropdown accordion ---------- */
-document.querySelectorAll('.nav-links > li > a').forEach(a => {
-  a.addEventListener('click', (e) => {
-    const parentLi = a.parentElement;
-    const hasDropdown = parentLi && parentLi.querySelector('.dropdown-wrap');
+document.querySelectorAll(".nav-links > li").forEach((item) => {
+  const mainLink = item.querySelector(":scope > a");
+  const dropdown = item.querySelector(":scope > .dropdown-wrap");
+  if (!mainLink) return;
 
-    if (window.innerWidth <= 900 && hasDropdown) {
-      e.preventDefault();
+  mainLink.addEventListener("click", (event) => {
+    if (window.innerWidth > 900) return;
 
-      document.querySelectorAll('.nav-links > li.dd-open').forEach(li => {
-        if (li !== parentLi) li.classList.remove('dd-open');
+    if (dropdown) {
+      event.preventDefault();
+      document.querySelectorAll(".nav-links > li.dd-open").forEach((openItem) => {
+        if (openItem !== item) openItem.classList.remove("dd-open");
       });
-
-      parentLi.classList.toggle('dd-open');
-    } else if (window.innerWidth <= 900) {
+      item.classList.toggle("dd-open");
+    } else {
       closeMenu();
     }
   });
 });
 
-/* ---------- Escape closes menu/modal ---------- */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    if (links && links.classList.contains('open')) closeMenu();
-
-    const chapterModal = document.getElementById('chapterModal');
-    if (chapterModal && chapterModal.classList.contains('show')) {
-      closeChapterModal();
-    }
-  }
+document.querySelectorAll(".dropdown a").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth <= 900) closeMenu();
+  });
 });
 
-/* ---------- Dark mode ---------- */
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900) closeMenu();
+});
+
 const sunIcon = `
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
   <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
   <path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
 </svg>`;
 
 const moonIcon = `
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
   <path d="M21 14.4C19.6 18.5 15.7 21.5 11.1 21.5C5.8 21.5 1.5 17.2 1.5 11.9C1.5 7.3 4.5 3.4 8.6 2C7.8 3.3 7.4 4.8 7.4 6.4C7.4 11.9 12.1 16.6 17.6 16.6C19.2 16.6 20.7 16.2 21 14.4Z" fill="currentColor"/>
 </svg>`;
 
-const themeBtn = document.getElementById('themeToggleDesktop');
+const themeButton = document.getElementById("themeToggleDesktop");
 
-if (themeBtn){
-  const themeIconEl = themeBtn.querySelector('.theme-icon');
-  const themeLabelEl = themeBtn.querySelector('.theme-label');
+function applyTheme(useDarkMode) {
+  document.body.classList.toggle("dark-mode", useDarkMode);
+  if (!themeButton) return;
 
-  function setTheme(dark){
-    document.body.classList.toggle('dark-mode', dark);
+  const icon = themeButton.querySelector(".theme-icon");
+  const label = themeButton.querySelector(".theme-label");
+  if (icon) icon.innerHTML = useDarkMode ? sunIcon : moonIcon;
+  if (label) label.textContent = useDarkMode ? "Light Mode" : "Dark Mode";
 
-    if (themeIconEl) {
-      themeIconEl.innerHTML = dark ? sunIcon : moonIcon;
-    }
-
-    if (themeLabelEl) {
-      themeLabelEl.textContent = dark ? 'Light Mode' : 'Dark Mode';
-    }
-
-    try {
-      localStorage.setItem('sparkwhyz-theme', dark ? 'dark' : 'light');
-    } catch(e) {}
-  }
-
-  let saved = null;
+  themeButton.setAttribute(
+    "aria-label",
+    useDarkMode ? "Switch to light mode" : "Switch to dark mode"
+  );
 
   try {
-    saved = localStorage.getItem('sparkwhyz-theme');
-  } catch(e) {}
+    localStorage.setItem("sparkwhyz-theme", useDarkMode ? "dark" : "light");
+  } catch (_) {}
+}
 
-  const prefersDark = window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches;
+if (themeButton) {
+  let savedTheme = null;
+  try {
+    savedTheme = localStorage.getItem("sparkwhyz-theme");
+  } catch (_) {}
 
-  setTheme(saved ? saved === 'dark' : prefersDark);
+  const systemPrefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  themeBtn.addEventListener('click', () => {
-    setTheme(!document.body.classList.contains('dark-mode'));
+  applyTheme(savedTheme ? savedTheme === "dark" : systemPrefersDark);
+
+  themeButton.addEventListener("click", () => {
+    applyTheme(!document.body.classList.contains("dark-mode"));
   });
 }
 
-/* ---------- Chapter Leader modal ---------- */
-const chapterModal = document.getElementById('chapterModal');
-
-function closeChapterModal(){
+function closeChapterModal(remember = true) {
   if (!chapterModal) return;
+  chapterModal.classList.remove("show");
+  chapterModal.setAttribute("aria-hidden", "true");
 
-  chapterModal.classList.remove('show');
-
-  try {
-    sessionStorage.setItem('sparkwhyz-chapter-modal-seen', '1');
-  } catch(e) {}
+  if (remember) {
+    try {
+      sessionStorage.setItem("sparkwhyz-chapter-modal-seen", "true");
+    } catch (_) {}
+  }
 }
 
-if (chapterModal){
-  const modalCloseBtn = chapterModal.querySelector('.modal-close');
-  const modalLearnMore = chapterModal.querySelector('.modal-btn');
+function openChapterModal() {
+  if (!chapterModal) return;
+  closeMenu();
+  chapterModal.classList.add("show");
+  chapterModal.setAttribute("aria-hidden", "false");
+}
 
-  let alreadySeen = false;
+if (chapterModal) {
+  const closeButton = chapterModal.querySelector(".modal-close");
+  const modalButton = chapterModal.querySelector(".modal-btn");
+  chapterModal.setAttribute("aria-hidden", "true");
 
+  let seen = false;
   try {
-    alreadySeen = sessionStorage.getItem('sparkwhyz-chapter-modal-seen');
-  } catch(e) {}
+    seen = sessionStorage.getItem("sparkwhyz-chapter-modal-seen") === "true";
+  } catch (_) {}
 
-  if (!alreadySeen){
-    setTimeout(() => {
-      if (!document.body.classList.contains('menu-open')) {
-        chapterModal.classList.add('show');
-      }
+  if (!seen) {
+    window.setTimeout(() => {
+      if (!document.body.classList.contains("menu-open")) openChapterModal();
     }, 1200);
   }
 
-  if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', closeChapterModal);
-  }
+  if (closeButton) closeButton.addEventListener("click", () => closeChapterModal(true));
+  if (modalButton) modalButton.addEventListener("click", () => closeChapterModal(true));
 
-  if (modalLearnMore) {
-    modalLearnMore.addEventListener('click', closeChapterModal);
-  }
-
-  chapterModal.addEventListener('click', (e) => {
-    if (e.target === chapterModal) {
-      closeChapterModal();
-    }
+  chapterModal.addEventListener("click", (event) => {
+    if (event.target === chapterModal) closeChapterModal(true);
   });
 }
 
-/* ---------- Scroll reveal animations ---------- */
-const revealEls = document.querySelectorAll('.reveal');
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  closeMenu();
+  closeChapterModal(true);
+});
 
-if ('IntersectionObserver' in window && revealEls.length){
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        io.unobserve(entry.target);
-      }
+const revealElements = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window && revealElements.length) {
+  const observer = new IntersectionObserver((entries, currentObserver) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("in-view");
+      currentObserver.unobserve(entry.target);
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.12 });
 
-  revealEls.forEach(el => io.observe(el));
+  revealElements.forEach((element) => observer.observe(element));
 } else {
-  revealEls.forEach(el => el.classList.add('in-view'));
+  revealElements.forEach((element) => element.classList.add("in-view"));
 }
 
-/* ---------- Founding Readers signup: name formatting + email validation ---------- */
-/* Lowercase name particles (only lowercased when NOT the first word of the name) */
-const NAME_PARTICLES = ['de','del','de la','la','le','van','von','der','den','di','da','do','dos','das','du','ter','ten','bin','ibn','al','el','y'];
-
-function formatName(raw){
-  const words = raw.trim().replace(/\s+/g, ' ').split(' ');
-  return words.map((word, i) => {
-    const lower = word.toLowerCase();
-    if (i > 0 && NAME_PARTICLES.includes(lower)) return lower;
-    // capitalize first letter after start of word, hyphen, or apostrophe (e.g. Smith-Jones, O'Brien)
-    return lower.replace(/(^|[-'])([a-z])/g, (m, sep, ch) => sep + ch.toUpperCase());
-  }).join(' ');
-}
-
-function isValidEmail(email){
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
-}
-
-const signupForm = document.getElementById('signupForm');
-if (signupForm){
-  const nameInput = document.getElementById('signupName');
-  const emailInput = document.getElementById('signupEmail');
-  const errorEl = document.getElementById('signupError');
-
-  function showError(msg){
-    if (!errorEl) return;
-    errorEl.textContent = msg;
-    errorEl.style.display = 'block';
-  }
-  function clearError(){
-    if (!errorEl) return;
-    errorEl.style.display = 'none';
-    errorEl.textContent = '';
-  }
-
-  signupForm.addEventListener('submit', (e) => {
-    clearError();
-
-    if (nameInput && !nameInput.value.trim()){
-      e.preventDefault();
-      showError('Please enter your name.');
-      return;
-    }
-    if (emailInput && !isValidEmail(emailInput.value)){
-      e.preventDefault();
-      showError('Please enter a valid email address.');
-      return;
-    }
-    if (nameInput){
-      nameInput.value = formatName(nameInput.value);
-    }
-    // form submits normally from here with the corrected name value
-  });
-}
+/*
+  Founding Readers intentionally has no submission code yet.
+  The next step will connect it directly to Google Sheets without opening Google Forms.
+*/
