@@ -677,6 +677,13 @@ foundingReaderForms.forEach((form) => {
    ========================================================= */
 
 window.addEventListener("message", (event) => {
+  if (
+    event.origin !== "https://script.google.com" &&
+    event.origin !== "https://script.googleusercontent.com"
+  ) {
+    return;
+  }
+
   const data = event.data;
 
   if (
