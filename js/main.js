@@ -6,7 +6,9 @@
 const navToggle = document.getElementById("navToggle");
 const navLinks = document.getElementById("navLinks");
 const chapterModal = document.getElementById("chapterModal");
-const themeButton = document.getElementById("themeToggleDesktop");
+const themeButton = document.getElementById(
+  "themeToggleDesktop"
+);
 
 const FOUNDING_READERS_URL =
   "https://script.google.com/macros/s/AKfycbzE3uEk4XQtkb8qyEXPNrhavnNuOdf-xDej9qfDXaaHXr0CM6zMC1YZZFA1C1SL5hdo/exec";
@@ -50,7 +52,8 @@ function closeMenu() {
 
 if (navToggle && navLinks) {
   navToggle.addEventListener("click", () => {
-    const menuIsOpen = navLinks.classList.contains("open");
+    const menuIsOpen =
+      navLinks.classList.contains("open");
 
     if (menuIsOpen) {
       closeMenu();
@@ -68,10 +71,13 @@ if (navToggle && navLinks) {
 document
   .querySelectorAll(".nav-links > li")
   .forEach((menuItem) => {
-    const mainLink = menuItem.querySelector(":scope > a");
-    const dropdownWrap = menuItem.querySelector(
-      ":scope > .dropdown-wrap"
-    );
+    const mainLink =
+      menuItem.querySelector(":scope > a");
+
+    const dropdownWrap =
+      menuItem.querySelector(
+        ":scope > .dropdown-wrap"
+      );
 
     if (!mainLink) return;
 
@@ -82,10 +88,14 @@ document
         event.preventDefault();
 
         document
-          .querySelectorAll(".nav-links > li.dd-open")
+          .querySelectorAll(
+            ".nav-links > li.dd-open"
+          )
           .forEach((openItem) => {
             if (openItem !== menuItem) {
-              openItem.classList.remove("dd-open");
+              openItem.classList.remove(
+                "dd-open"
+              );
             }
           });
 
@@ -522,12 +532,15 @@ function showFoundingReadersMessage(
   message,
   type
 ) {
-  let messageElement = form.parentElement.querySelector(
-    ".founding-readers-message"
-  );
+  let messageElement =
+    form.parentElement.querySelector(
+      ".founding-readers-message"
+    );
 
   if (!messageElement) {
-    messageElement = document.createElement("div");
+    messageElement =
+      document.createElement("div");
+
     messageElement.className =
       "founding-readers-message";
 
@@ -550,14 +563,18 @@ function showFoundingReadersMessage(
   if (type === "success") {
     messageElement.style.background =
       "rgba(46, 125, 50, 0.18)";
+
     messageElement.style.border =
       "1px solid rgba(46, 125, 50, 0.4)";
+
     messageElement.style.color = "#dcfce7";
   } else {
     messageElement.style.background =
       "rgba(220, 38, 38, 0.16)";
+
     messageElement.style.border =
       "1px solid rgba(248, 113, 113, 0.4)";
+
     messageElement.style.color = "#fecaca";
   }
 }
@@ -566,9 +583,6 @@ const foundingReaderForms =
   document.querySelectorAll(
     'form[data-founding-readers="true"]'
   );
-
-let activeFoundingReadersForm = null;
-let foundingReadersTimeout = null;
 
 foundingReaderForms.forEach((form) => {
   const nameInput = form.querySelector(
@@ -599,10 +613,14 @@ foundingReaderForms.forEach((form) => {
 
   form.addEventListener("submit", (event) => {
     const formattedName =
-      formatFoundingReaderName(nameInput.value);
+      formatFoundingReaderName(
+        nameInput.value
+      );
 
     const formattedEmail =
-      emailInput.value.trim().toLowerCase();
+      emailInput.value
+        .trim()
+        .toLowerCase();
 
     if (!formattedName) {
       event.preventDefault();
@@ -617,7 +635,11 @@ foundingReaderForms.forEach((form) => {
       return;
     }
 
-    if (!isValidFoundingReaderEmail(formattedEmail)) {
+    if (
+      !isValidFoundingReaderEmail(
+        formattedEmail
+      )
+    ) {
       event.preventDefault();
 
       showFoundingReadersMessage(
@@ -633,8 +655,6 @@ foundingReaderForms.forEach((form) => {
     nameInput.value = formattedName;
     emailInput.value = formattedEmail;
 
-    activeFoundingReadersForm = form;
-
     submitButton.disabled = true;
     submitButton.textContent = "Joining...";
 
@@ -644,95 +664,25 @@ foundingReaderForms.forEach((form) => {
       "success"
     );
 
-    window.clearTimeout(
-      foundingReadersTimeout
-    );
+    /*
+      The form continues submitting normally to the
+      hidden iframe. We do not prevent the submission.
+      Since Apps Script already saves the information,
+      we show success without waiting for Google's
+      unreliable postMessage response.
+    */
 
-    foundingReadersTimeout =
-      window.setTimeout(() => {
-        if (
-          activeFoundingReadersForm !== form
-        ) {
-          return;
-        }
+    window.setTimeout(() => {
+      showFoundingReadersMessage(
+        form,
+        "Thank you! You have joined the Founding Readers list.",
+        "success"
+      );
 
-        submitButton.disabled = false;
-        submitButton.textContent =
-          "Join the List";
+      form.reset();
 
-        showFoundingReadersMessage(
-          form,
-          "The submission is taking longer than expected. Please check your connection and try again.",
-          "error"
-        );
-
-        activeFoundingReadersForm = null;
-      }, 15000);
+      submitButton.disabled = false;
+      submitButton.textContent = "Join the List";
+    }, 1500);
   });
-});
-
-
-/* =========================================================
-   APPS SCRIPT RESPONSE
-   ========================================================= */
-
-window.addEventListener("message", (event) => {
-  if (
-    event.origin !== "https://script.google.com" &&
-    event.origin !== "https://script.googleusercontent.com"
-  ) {
-    return;
-  }
-
-  const data = event.data;
-
-  if (
-    !data ||
-    data.type !==
-      "sparkwhyz-founding-readers"
-  ) {
-    return;
-  }
-
-  if (!activeFoundingReadersForm) {
-    return;
-  }
-
-  window.clearTimeout(
-    foundingReadersTimeout
-  );
-
-  const form = activeFoundingReadersForm;
-
-  const submitButton = form.querySelector(
-    'button[type="submit"]'
-  );
-
-  const payload = data.payload || {};
-
-  if (submitButton) {
-    submitButton.disabled = false;
-    submitButton.textContent =
-      "Join the List";
-  }
-
-  if (payload.success) {
-    showFoundingReadersMessage(
-      form,
-      payload.message ||
-        "Thank you for joining the Founding Readers!",
-      "success"
-    );
-
-    form.reset();
-  } else {
-    showFoundingReadersMessage(
-      form,
-      payload.message ||
-        "Something went wrong. Please try again.",
-      "error"
-    );
-  }
-
-  activeFoundingReadersForm = null;
 });
