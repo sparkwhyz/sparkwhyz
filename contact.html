@@ -12,7 +12,7 @@
 
   <meta
     name="description"
-    content="Contact SparkWhyz about partnerships, schools, sponsorships, events, media, donations, and community involvement."
+    content="Contact SparkWhyz about school partnerships, sponsorships, community events, media requests, donations, and youth-led fire prevention."
   >
 
   <link
@@ -66,6 +66,7 @@
 
 <header>
   <nav class="container">
+
     <a
       href="index.html"
       class="logo"
@@ -210,6 +211,7 @@
           aria-label="Toggle dark mode"
         >
           <span class="theme-icon"></span>
+
           <span class="theme-label">
             Dark Mode
           </span>
@@ -236,106 +238,37 @@
         </a>
       </li>
     </ul>
+
   </nav>
 </header>
 
 
 <main>
 
-  <section class="page-hero">
+  <section class="contact-page">
+
     <div class="container">
-      <span class="section-eyebrow">
-        Contact SparkWhyz
-      </span>
 
-      <h1>
-        Let’s make a difference together.
-      </h1>
+      <div class="contact-page-heading reveal">
 
-      <p>
-        Contact our team about school partnerships,
-        classroom sponsorships, community events,
-        media requests, donations, or other ways to
-        support youth-led fire prevention.
-      </p>
-    </div>
-  </section>
-
-
-  <section class="section contact-section">
-    <div class="container contact-grid">
-
-      <div class="contact-intro reveal">
         <span class="section-eyebrow">
-          Get in Touch
+          Contact SparkWhyz
         </span>
 
-        <h2>
-          Send SparkWhyz a Message
-        </h2>
+        <h1>
+          Send Us a Message
+        </h1>
 
         <p>
-          Have a question, partnership idea, or message
-          for the SparkWhyz team? Fill out the form and
-          we’ll get back to you as soon as possible.
+          Have a question, partnership idea, media
+          request, or another way you would like to
+          support SparkWhyz? Send us a message below.
         </p>
 
-        <div class="contact-details">
-
-          <div class="contact-detail">
-            <h3>Email</h3>
-
-            <p>
-              <a href="mailto:contact@sparkwhyz.org">
-                contact@sparkwhyz.org
-              </a>
-            </p>
-          </div>
-
-          <div class="contact-detail">
-            <h3>Phone</h3>
-
-            <p>
-              <a href="tel:+19495507145">
-                949-550-7145
-              </a>
-            </p>
-          </div>
-
-          <div class="contact-detail">
-            <h3>Location</h3>
-
-            <p>
-              Laguna Beach, California
-            </p>
-          </div>
-
-          <div class="contact-support-box">
-            <h3>
-              Help Us Put Our Book Into Schools
-            </h3>
-
-            <p>
-              Every donation helps SparkWhyz print
-              children’s fire-safety books and place
-              them in local elementary schools.
-            </p>
-
-            <a
-              href="https://www.gofundme.com/f/get-our-book-into-el-morro-top-of-the-world-elementary"
-              class="btn btn-gofundme"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Support Our GoFundMe
-            </a>
-          </div>
-
-        </div>
       </div>
 
 
-      <div class="form-card reveal">
+      <div class="contact-card reveal">
 
         <form
           id="contactForm"
@@ -344,41 +277,45 @@
           novalidate
         >
 
-          <div class="form-field">
-            <label for="contactName">
-              Full Name
-            </label>
+          <div class="contact-form-row">
 
-            <input
-              type="text"
-              id="contactName"
-              name="name"
-              placeholder="Your name"
-              autocomplete="name"
-              maxlength="100"
-              required
-            >
+            <div class="contact-field">
+              <label for="contactName">
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                id="contactName"
+                name="name"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                maxlength="100"
+                required
+              >
+            </div>
+
+
+            <div class="contact-field">
+              <label for="contactEmail">
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                id="contactEmail"
+                name="email"
+                placeholder="Enter your email address"
+                autocomplete="email"
+                maxlength="150"
+                required
+              >
+            </div>
+
           </div>
 
 
-          <div class="form-field">
-            <label for="contactEmail">
-              Email Address
-            </label>
-
-            <input
-              type="email"
-              id="contactEmail"
-              name="email"
-              placeholder="Your email"
-              autocomplete="email"
-              maxlength="150"
-              required
-            >
-          </div>
-
-
-          <div class="form-field">
+          <div class="contact-field">
             <label for="contactTopic">
               Topic
             </label>
@@ -387,14 +324,14 @@
               type="text"
               id="contactTopic"
               name="topic"
-              placeholder="What would you like to discuss?"
+              placeholder="What is your message about?"
               maxlength="150"
               required
             >
           </div>
 
 
-          <div class="form-field">
+          <div class="contact-field">
             <label for="contactMessage">
               Message
             </label>
@@ -402,7 +339,7 @@
             <textarea
               id="contactMessage"
               name="message"
-              placeholder="How can we help?"
+              placeholder="Type your message here..."
               rows="7"
               maxlength="3000"
               required
@@ -410,7 +347,6 @@
           </div>
 
 
-          <!-- Spam protection. Visitors should never fill this in. -->
           <div
             class="website-field"
             aria-hidden="true"
@@ -431,7 +367,7 @@
 
           <button
             type="submit"
-            class="btn btn-primary contact-submit"
+            class="contact-submit-button"
           >
             Send Message
           </button>
@@ -444,9 +380,61 @@
 
         </form>
 
+
+        <div class="contact-email-note">
+
+          <span>
+            Prefer to email us directly?
+          </span>
+
+          <a href="mailto:contact@sparkwhyz.org">
+            contact@sparkwhyz.org
+          </a>
+
+        </div>
+
       </div>
 
     </div>
+
+  </section>
+
+
+  <section class="contact-support-section">
+
+    <div class="container">
+
+      <div class="contact-support-card reveal">
+
+        <div>
+          <span class="section-eyebrow">
+            Support Our Mission
+          </span>
+
+          <h2>
+            Help Us Put Our Fire-Safety Book Into Schools
+          </h2>
+
+          <p>
+            Every contribution helps us print books and
+            bring youth-led wildfire prevention education
+            into local elementary school classrooms.
+          </p>
+        </div>
+
+        <a
+          href="https://www.gofundme.com/f/get-our-book-into-el-morro-top-of-the-world-elementary"
+          class="contact-gofundme-button"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Support Our GoFundMe
+        </a>
+
+      </div>
+
+    </div>
+
   </section>
 
 </main>
@@ -458,6 +446,7 @@
     <div class="footer-grid">
 
       <div class="footer-brand">
+
         <div class="logo">
           SparkWhyz
         </div>
@@ -468,6 +457,7 @@
           partnership to help stop fireworks-related
           wildfires before they start.
         </p>
+
       </div>
 
 
@@ -558,6 +548,7 @@
         <h4>Follow</h4>
 
         <div class="social-links">
+
           <a
             class="social-link"
             href="https://www.instagram.com/sparkwhyz/"
@@ -598,10 +589,12 @@
               />
             </svg>
           </a>
+
         </div>
       </div>
 
     </div>
+
 
     <div class="footer-bottom">
       &copy; 2026 SparkWhyz. Laguna Beach, California.
