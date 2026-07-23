@@ -385,3 +385,390 @@ body.dark-mode .contact-support-card {
     text-align: center;
   }
 }
+/* =========================================================
+   CLEAN CONTACT PAGE
+   ========================================================= */
+
+.contact-page {
+  padding: 105px 0 90px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(239, 108, 20, 0.1),
+      transparent 34%
+    ),
+    #f8fafc;
+}
+
+.contact-page-heading {
+  max-width: 720px;
+  margin: 0 auto 42px;
+  text-align: center;
+}
+
+.contact-page-heading h1 {
+  margin: 12px 0 18px;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.08;
+  color: var(--navy);
+}
+
+.contact-page-heading p {
+  max-width: 650px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.contact-card {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 46px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 22px;
+  box-shadow:
+    0 24px 65px rgba(15, 23, 42, 0.1);
+}
+
+.contact-form {
+  display: grid;
+  gap: 23px;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.contact-field {
+  display: grid;
+  gap: 9px;
+}
+
+.contact-field label {
+  font-family: "Sora", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  padding: 15px 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #172033;
+  background: #f8fafc;
+  border: 1px solid #d9e0e8;
+  border-radius: 11px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.contact-field input:hover,
+.contact-field textarea:hover {
+  border-color: #b9c4d0;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: var(--orange);
+  box-shadow:
+    0 0 0 4px rgba(239, 108, 20, 0.12);
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+  color: #8994a3;
+}
+
+.contact-field textarea {
+  min-height: 175px;
+  resize: vertical;
+}
+
+.contact-submit-button {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 11px;
+  cursor: pointer;
+  font-family: "Sora", sans-serif;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--orange);
+  box-shadow:
+    0 10px 25px rgba(239, 108, 20, 0.22);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contact-submit-button:hover {
+  transform: translateY(-2px);
+  background: #d95e0d;
+  box-shadow:
+    0 14px 30px rgba(239, 108, 20, 0.28);
+}
+
+.contact-submit-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
+.contact-email-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 27px;
+  padding-top: 25px;
+  border-top: 1px solid #e5e9ef;
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.contact-email-note a {
+  color: var(--orange);
+  font-weight: 800;
+}
+
+.contact-form-message {
+  display: none;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.contact-form-message[data-type="success"] {
+  display: block;
+  color: #166534;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+}
+
+.contact-form-message[data-type="error"] {
+  display: block;
+  color: #991b1b;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+}
+
+.website-field {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.contact-support-section {
+  padding: 65px 0 85px;
+  background: #ffffff;
+}
+
+.contact-support-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 45px;
+  padding: 42px 48px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(2, 169, 92, 0.1),
+      rgba(2, 169, 92, 0.035)
+    );
+  border: 1px solid rgba(2, 169, 92, 0.2);
+  border-radius: 20px;
+}
+
+.contact-support-card > div {
+  max-width: 680px;
+}
+
+.contact-support-card h2 {
+  margin: 9px 0 12px;
+  color: var(--navy);
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.2;
+}
+
+.contact-support-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.contact-gofundme-button {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 14px 25px;
+  border-radius: 10px;
+  color: #ffffff;
+  background: #02a95c;
+  font-family: "Sora", sans-serif;
+  font-size: 0.93rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow:
+    0 10px 24px rgba(2, 169, 92, 0.2);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.contact-gofundme-button:hover {
+  color: #ffffff;
+  background: #018f4d;
+  transform: translateY(-2px);
+}
+
+
+/* Dark mode */
+
+body.dark-mode .contact-page {
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(239, 108, 20, 0.12),
+      transparent 34%
+    ),
+    #0c1c2d;
+}
+
+body.dark-mode .contact-page-heading h1,
+body.dark-mode .contact-field label,
+body.dark-mode .contact-support-card h2 {
+  color: #ffffff;
+}
+
+body.dark-mode .contact-page-heading p,
+body.dark-mode .contact-email-note,
+body.dark-mode .contact-support-card p {
+  color: #cbd5e1;
+}
+
+body.dark-mode .contact-card {
+  background: #132b44;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .contact-field input,
+body.dark-mode .contact-field textarea {
+  color: #ffffff;
+  background: #0f2237;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .contact-field input:focus,
+body.dark-mode .contact-field textarea:focus {
+  background: #10273e;
+  border-color: var(--orange);
+}
+
+body.dark-mode .contact-field input::placeholder,
+body.dark-mode .contact-field textarea::placeholder {
+  color: #8fa0b4;
+}
+
+body.dark-mode .contact-email-note {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .contact-support-section {
+  background: #102238;
+}
+
+body.dark-mode .contact-support-card {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(2, 169, 92, 0.15),
+      rgba(2, 169, 92, 0.05)
+    );
+  border-color: rgba(2, 169, 92, 0.3);
+}
+
+
+/* Mobile */
+
+@media (max-width: 900px) {
+  .contact-page {
+    padding: 75px 0 65px;
+  }
+
+  .contact-page-heading {
+    margin-bottom: 32px;
+  }
+
+  .contact-card {
+    padding: 32px 25px;
+    border-radius: 17px;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr;
+    gap: 23px;
+  }
+
+  .contact-support-section {
+    padding: 50px 0 65px;
+  }
+
+  .contact-support-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 28px;
+    gap: 25px;
+  }
+
+  .contact-gofundme-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .contact-page {
+    padding: 60px 0 55px;
+  }
+
+  .contact-card {
+    padding: 26px 18px;
+  }
+
+  .contact-field input,
+  .contact-field textarea {
+    font-size: 16px;
+  }
+
+  .contact-support-card {
+    padding: 27px 21px;
+  }
+
+  .contact-email-note {
+    text-align: center;
+  }
+}
