@@ -772,3 +772,34 @@ body.dark-mode .contact-support-card {
     text-align: center;
   }
 }
+/* Homepage hero button order */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.btn-gofundme {
+  background: #008000;
+  border: 2px solid #008000;
+  color: #ffffff;
+}
+
+.btn-gofundme:hover {
+  background: #006b00;
+  border-color: #006b00;
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
