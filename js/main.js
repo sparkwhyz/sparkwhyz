@@ -1,347 +1,688 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SparkWhyz | Youth-Led Fire Prevention</title>
-<meta name="description" content="SparkWhyz is a youth-led Laguna Beach fire prevention initiative stopping fireworks-related wildfires through education and youth leadership.">
-<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-<header>
-  <nav class="container">
-    <a href="/" class="logo" aria-label="SparkWhyz home">
-      <img src="/images/logo-transparent.png" alt="SparkWhyz">
-    </a>
+/* =========================================================
+   SPARKWHYZ MAIN JAVASCRIPT
+   Navigation, dark mode, popup, animations, and forms
+   ========================================================= */
 
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-      <span class="bar bar1"></span>
-      <span class="bar bar2"></span>
-      <span class="bar bar3"></span>
-    </button>
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+const chapterModal = document.getElementById("chapterModal");
+const themeButton = document.getElementById(
+  "themeToggleDesktop"
+);
 
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/">Home</a></li>
+const FOUNDING_READERS_URL =
+  "https://script.google.com/macros/s/AKfycbzE3uEk4XQtkb8qyEXPNrhavnNuOdf-xDej9qfDXaaHXr0CM6zMC1YZZFA1C1SL5hdo/exec";
 
-      <li>
-        <a href="/about/">About <span class="chevron">⌄</span></a>
-        <div class="dropdown-wrap">
-          <ul class="dropdown">
-            <li><a href="/about/#story">Our Story</a></li>
-            <li><a href="/about/#team">Our Team</a></li>
-          </ul>
-        </div>
-      </li>
 
-      <li>
-        <a href="/get-involved/">Get Involved <span class="chevron">⌄</span></a>
-        <div class="dropdown-wrap">
-          <ul class="dropdown">
-            <li><a href="/get-involved/#pledge">Sign the Pledge</a></li>
-            <li><a href="/get-involved/#gofundme">Support Our GoFundMe</a></li>
-            <li><a href="/get-involved/#sponsor">Sponsor a Classroom</a></li>
-            <li><a href="/get-involved/#events">Events</a></li>
-            <li><a href="/chapter-leaders/">Become a Chapter Leader</a></li>
-          </ul>
-        </div>
-      </li>
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
 
-      <li>
-        <a href="/press/">Press <span class="chevron">⌄</span></a>
-        <div class="dropdown-wrap">
-          <ul class="dropdown">
-            <li><a href="/press/#turn-in-2026">2nd Fireworks Turn-In Event</a></li>
-            <li><a href="/press/#citywide-turn-in">Citywide Turn-In Coverage</a></li>
-            <li><a href="/press/#kids-doing-right-thing">Kids Doing the Right Thing</a></li>
-            <li><a href="/press/#founding-story">Our Founding Story</a></li>
-          </ul>
-        </div>
-      </li>
+function closeMobileDropdowns() {
+  document
+    .querySelectorAll(".nav-links > li.dd-open")
+    .forEach((item) => {
+      item.classList.remove("dd-open");
+    });
+}
 
-      <li><a href="/contact/">Contact</a></li>
+function openMenu() {
+  if (!navToggle || !navLinks) return;
 
-      <li>
-        <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle dark mode">
-          <span class="theme-icon"></span>
-          <span class="theme-label">Dark Mode</span>
-        </button>
-      </li>
+  closeChapterModal(false);
 
-      <li class="nav-action-item"><a href="/get-involved/#pledge" class="nav-cta">Sign the Pledge</a></li>
-      <li class="nav-action-item"><a href="/donate/" class="nav-cta nav-gofundme">GoFundMe</a></li>
-    </ul>
-  </nav>
-</header>
+  navLinks.classList.add("open");
+  navToggle.classList.add("active");
+  navToggle.setAttribute("aria-expanded", "true");
 
-<section class="hero">
-  <div class="container hero-inner">
-    <span class="eyebrow">Laguna Beach &middot; Youth-Led Fire Prevention Initiative</span>
-    <h1>One <span>spark</span> can change everything.</h1>
-    <p>SparkWhyz is a youth-led movement preventing fireworks-related wildfires through education, storytelling, and community partnership, starting right here in Laguna Beach.</p>
-    <div class="btn-row hero-actions">
-      <a href="/about/#story" class="btn btn-outline">Read Our Story</a>
-      <a href="/get-involved/#pledge" class="btn btn-primary">Sign the Pledge</a>
-      <a href="/donate/" class="btn btn-gofundme">GoFundMe</a>
-    </div>
-  </div>
-</section>
+  document.body.classList.add("menu-open");
+}
 
-<section class="mission">
-  <div class="container mission-grid">
-    <div class="mission-card reveal">
-      <div class="icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2 4 5v6c0 4.5 2.5 8 8 10 5.5-2 8-5.5 8-10V5l-8-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-          <path d="M12 8c-1.5 2-2.2 3.5-2.2 5 0 1.8 1 3 2.2 3s2.2-1.2 2.2-3c0-1.2-.6-2-1.2-2.7 0 .7-.4 1.1-.8 1 .4-1.1.1-2.3-.2-3.3Z" fill="currentColor"/>
-        </svg>
-      </div>
-      <h3>Prevent Wildfires</h3>
-      <p>Educating kids before a dangerous decision is ever made, not after.</p>
-    </div>
+function closeMenu() {
+  if (!navToggle || !navLinks) return;
 
-    <div class="mission-card reveal reveal-delay-1">
-      <div class="icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2c.8 4.5 2 7.8 6 9.5-4 1.7-5.2 5-6 9.5-.8-4.5-2-7.8-6-9.5C10 9.8 11.2 6.5 12 2Z" fill="currentColor"/>
-        </svg>
-      </div>
-      <h3>Empower Youth</h3>
-      <p>Students leading students. We believe young people inspire each other best.</p>
-    </div>
+  navLinks.classList.remove("open");
+  navToggle.classList.remove("active");
+  navToggle.setAttribute("aria-expanded", "false");
 
-    <div class="mission-card reveal reveal-delay-2">
-      <div class="icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="9" cy="12" r="6" stroke="currentColor" stroke-width="1.6"/>
-          <circle cx="15" cy="12" r="6" stroke="currentColor" stroke-width="1.6"/>
-        </svg>
-      </div>
-      <h3>Build Partnerships</h3>
-      <p>Working alongside the Laguna Beach Fire Department, schools, and families.</p>
-    </div>
-  </div>
-</section>
+  document.body.classList.remove("menu-open");
 
-<section class="story" id="story">
-  <div class="container story-grid">
-    <div class="story-media reveal">
-      <img src="/images/rancho-fire.jpg" alt="Rancho Fire in Laguna Beach">
-    </div>
+  closeMobileDropdowns();
+}
 
-    <div>
-      <span class="section-eyebrow">Our Origin</span>
-      <h2>A close call that became a mission.</h2>
-      <p>SparkWhyz began after a real wildfire was started in Laguna Beach by a middle-school-aged boy using illegal fireworks. Instead of asking who to blame, we asked a different question: what if someone had reached him before he made that decision?</p>
-      <p>That question is the foundation of everything we do.</p>
-      <a href="/about/" class="btn btn-dark">Meet the Founders</a>
-    </div>
-  </div>
-</section>
+if (navToggle && navLinks) {
+  navToggle.addEventListener("click", () => {
+    const menuIsOpen =
+      navLinks.classList.contains("open");
 
-<section class="involved">
-  <div class="container">
-    <div class="involved-head reveal">
-      <span class="section-eyebrow">Get Involved</span>
-      <h2>Three ways to protect Laguna Beach</h2>
-      <p>You do not need to be a firefighter to make a difference. Here is where to start.</p>
-    </div>
+    if (menuIsOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+}
 
-    <div class="involved-grid">
-      <div class="involved-card reveal">
-        <h3>Sign the Pledge</h3>
-        <p>Commit to avoiding illegal fireworks and join families across Laguna Beach making the same promise.</p>
-        <a href="/get-involved/#pledge">Sign now &rarr;</a>
-      </div>
 
-      <div class="involved-card reveal reveal-delay-1">
-        <h3>Sponsor a Classroom</h3>
-        <p>Fund a set of our children's books so a classroom can learn this lesson firsthand.</p>
-        <a href="/get-involved/#sponsor">Sponsor a class &rarr;</a>
-      </div>
+/* =========================================================
+   MOBILE DROPDOWN MENUS
+   ========================================================= */
 
-      <div class="involved-card reveal reveal-delay-2">
-        <h3>Lead a Chapter</h3>
-        <p>Bring SparkWhyz to your school and help students turn fire-safety awareness into action.</p>
-        <a href="/chapter-leaders/">Learn about chapters &rarr;</a>
-      </div>
-    </div>
-  </div>
-</section>
+document
+  .querySelectorAll(".nav-links > li")
+  .forEach((menuItem) => {
+    const mainLink =
+      menuItem.querySelector(":scope > a");
 
-<section class="section section-alt">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-eyebrow">Press & Updates</span>
-      <h2>Sharing the SparkWhyz story</h2>
-      <p>Follow our journey as students, families, and community partners work together to make Laguna safer.</p>
-    </div>
+    const dropdownWrap =
+      menuItem.querySelector(
+        ":scope > .dropdown-wrap"
+      );
 
-    <div class="news-grid">
-      <article class="news-card reveal">
-        <div class="news-thumb">Photo</div>
-        <div class="news-body">
-          <span class="news-date">Community Event</span>
-          <h3>2nd Fireworks Turn-In Event</h3>
-          <p>Learn how SparkWhyz and community partners are creating safer ways to prevent fireworks-related fires.</p>
-          <a href="/press/#turn-in-2026">Read More &rarr;</a>
-        </div>
-      </article>
+    if (!mainLink) return;
 
-      <article class="news-card reveal reveal-delay-1">
-        <div class="news-thumb">Photo</div>
-        <div class="news-body">
-          <span class="news-date">Coverage</span>
-          <h3>Citywide Turn-In Coverage</h3>
-          <p>See how our community came together to support fire prevention and safety.</p>
-          <a href="/press/#citywide-turn-in">Read More &rarr;</a>
-        </div>
-      </article>
+    mainLink.addEventListener("click", (event) => {
+      if (window.innerWidth > 900) return;
 
-      <article class="news-card reveal reveal-delay-2">
-        <div class="news-thumb">Photo</div>
-        <div class="news-body">
-          <span class="news-date">Our Story</span>
-          <h3>Our Founding Story</h3>
-          <p>Discover why SparkWhyz was created and how students are taking action.</p>
-          <a href="/press/#founding-story">Read More &rarr;</a>
-        </div>
-      </article>
-    </div>
+      if (dropdownWrap) {
+        event.preventDefault();
 
-    <div style="text-align:center;margin-top:40px">
-      <a href="/press/" class="btn btn-primary">View All Press</a>
-    </div>
-  </div>
-</section>
+        document
+          .querySelectorAll(
+            ".nav-links > li.dd-open"
+          )
+          .forEach((openItem) => {
+            if (openItem !== menuItem) {
+              openItem.classList.remove(
+                "dd-open"
+              );
+            }
+          });
 
-<section class="partners-section">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-eyebrow">Our Partners</span>
-      <h2>Working together to protect Laguna</h2>
-      <p>SparkWhyz works alongside community partners who share our commitment to fire prevention and safety.</p>
-    </div>
+        menuItem.classList.toggle("dd-open");
+      } else {
+        closeMenu();
+      }
+    });
+  });
 
-    <div class="partners-grid">
-      <a href="/fire-department/" class="partner-card reveal">
-        <div class="partner-icon">
-          <svg width="38" height="38" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <path d="M24 4c-4.5 7.1-11 13.2-11 23 0 7.2 4.9 13 11 13s11-5.8 11-13c0-7-4.2-12.1-7.5-16.3-.2 5.6-2.8 8.9-5.8 11.1.8-4.7-1.3-9.7 2.3-17.8Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-            <path d="M24 23c-2.7 3.1-4 5.4-4 8.1 0 3 1.8 4.9 4 4.9s4-1.9 4-4.9c0-2.5-1.5-4.8-4-8.1Z" fill="currentColor"/>
-            <path d="M9 41h30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3>Laguna Beach Fire Department</h3>
-        <p>Partnering with local firefighters to support prevention, education, responsible decision-making, and community safety.</p>
-        <span class="partner-link">Learn More <span aria-hidden="true">&rarr;</span></span>
-      </a>
+document
+  .querySelectorAll(".dropdown a")
+  .forEach((dropdownLink) => {
+    dropdownLink.addEventListener("click", () => {
+      if (window.innerWidth <= 900) {
+        closeMenu();
+      }
+    });
+  });
 
-      <a href="/schools/" class="partner-card reveal reveal-delay-1">
-        <div class="partner-icon">
-          <svg width="38" height="38" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <path d="M24 6 5 16l19 10 19-10L24 6Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-            <path d="M12 21v10c0 4.1 5.4 7 12 7s12-2.9 12-7V21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M43 16v13" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="43" cy="32" r="2.5" fill="currentColor"/>
-            <path d="M18 29c1.8 1.2 3.8 1.8 6 1.8s4.2-.6 6-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3>Local Schools</h3>
-        <p>Bringing age-appropriate fire prevention education to students and empowering young people to become safety leaders.</p>
-        <span class="partner-link">Learn More <span aria-hidden="true">&rarr;</span></span>
-      </a>
-    </div>
-  </div>
-</section>
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900) {
+    closeMenu();
+  }
+});
 
-<section class="signup" id="founding-readers">
-  <div class="container">
-    <h2>Join the Founding Readers</h2>
-    <p>Be the first to know when our children's book launches, plus updates on events and classroom sponsorships.</p>
 
-    <form class="signup-form" id="signupForm">
-      <input type="text" id="signupName" name="name" placeholder="Your name" autocomplete="name">
-      <input type="email" id="signupEmail" name="email" placeholder="Your email" autocomplete="email">
-      <button type="button" disabled aria-disabled="true">Join the List</button>
-    </form>
+/* =========================================================
+   DARK MODE
+   ========================================================= */
 
-    <p class="signup-note">Signup connection coming next. No information is submitted yet.</p>
-  </div>
-</section>
+const sunIcon = `
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    aria-hidden="true"
+  >
+    <circle
+      cx="12"
+      cy="12"
+      r="4.5"
+      fill="currentColor"
+    />
 
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="logo">SparkWhyz</div>
-        <p>A youth-led fire prevention initiative using education, storytelling, and community partnership to help stop fireworks-related wildfires before they start.</p>
-      </div>
+    <path
+      d="
+        M12 2V4.5
+        M12 19.5V22
+        M4.93 4.93L6.7 6.7
+        M17.3 17.3L19.07 19.07
+        M2 12H4.5
+        M19.5 12H22
+        M4.93 19.07L6.7 17.3
+        M17.3 6.7L19.07 4.93
+      "
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+    />
+  </svg>
+`;
 
-      <div>
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/press/">Press</a></li>
-          <li><a href="/contact/">Contact</a></li>
-        </ul>
-      </div>
+const moonIcon = `
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="
+        M21 14.4
+        C19.6 18.5 15.7 21.5 11.1 21.5
+        C5.8 21.5 1.5 17.2 1.5 11.9
+        C1.5 7.3 4.5 3.4 8.6 2
+        C7.8 3.3 7.4 4.8 7.4 6.4
+        C7.4 11.9 12.1 16.6 17.6 16.6
+        C19.2 16.6 20.7 16.2 21 14.4Z
+      "
+      fill="currentColor"
+    />
+  </svg>
+`;
 
-      <div>
-        <h4>Get Involved</h4>
-        <ul>
-          <li><a href="/get-involved/#pledge">Sign the Pledge</a></li>
-          <li><a href="/get-involved/#gofundme">Support Our GoFundMe</a></li>
-          <li><a href="/get-involved/#sponsor">Sponsor a Classroom</a></li>
-          <li><a href="/get-involved/#events">Events</a></li>
-          <li><a href="/chapter-leaders/">Chapter Leaders</a></li>
-        </ul>
-      </div>
+function applyTheme(useDarkMode) {
+  document.body.classList.toggle(
+    "dark-mode",
+    useDarkMode
+  );
 
-      <div>
-        <h4>Partners</h4>
-        <ul>
-          <li><a href="/fire-department/">Laguna Beach Fire Department</a></li>
-          <li><a href="/schools/">Local Schools</a></li>
-        </ul>
-      </div>
+  if (!themeButton) return;
 
-      <div>
-        <h4>Follow</h4>
-        <div class="social-links">
-          <a class="social-link" href="https://www.instagram.com/sparkwhyz/" target="_blank" rel="noopener" aria-label="SparkWhyz on Instagram">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/>
-              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
-              <circle cx="17.4" cy="6.7" r="1" fill="currentColor"/>
-            </svg>
-          </a>
-          <!-- Add verified Facebook, TikTok, YouTube, LinkedIn, or X URLs here when available. -->
-        </div>
-      </div>
-    </div>
+  const themeIcon =
+    themeButton.querySelector(".theme-icon");
 
-    <div class="footer-bottom">&copy; 2026 SparkWhyz. Laguna Beach, California.</div>
-  </div>
-</footer>
+  const themeLabel =
+    themeButton.querySelector(".theme-label");
 
-<div class="modal-overlay" id="chapterModal" aria-hidden="true">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="chapterModalTitle">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-eyebrow">Get Involved</div>
-    <h2 id="chapterModalTitle">Looking for Chapter Leads</h2>
-    <p>Help bring SparkWhyz's fire safety mission to your school or neighborhood. We are looking for motivated students ready to lead the next chapter.</p>
-    <a href="/chapter-leaders/" class="modal-btn">Learn More <span aria-hidden="true">&rarr;</span></a>
-  </div>
-</div>
+  if (themeIcon) {
+    themeIcon.innerHTML = useDarkMode
+      ? sunIcon
+      : moonIcon;
+  }
 
-<script src="/js/main.js"></script>
-</body>
-</html>
+  if (themeLabel) {
+    themeLabel.textContent = useDarkMode
+      ? "Light Mode"
+      : "Dark Mode";
+  }
+
+  themeButton.setAttribute(
+    "aria-label",
+    useDarkMode
+      ? "Switch to light mode"
+      : "Switch to dark mode"
+  );
+
+  try {
+    localStorage.setItem(
+      "sparkwhyz-theme",
+      useDarkMode ? "dark" : "light"
+    );
+  } catch (error) {
+    console.warn(
+      "Theme preference could not be saved."
+    );
+  }
+}
+
+if (themeButton) {
+  let savedTheme = null;
+
+  try {
+    savedTheme = localStorage.getItem(
+      "sparkwhyz-theme"
+    );
+  } catch (error) {
+    savedTheme = null;
+  }
+
+  const systemPrefersDark =
+    window.matchMedia &&
+    window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+  const shouldUseDarkMode =
+    savedTheme !== null
+      ? savedTheme === "dark"
+      : systemPrefersDark;
+
+  applyTheme(shouldUseDarkMode);
+
+  themeButton.addEventListener("click", () => {
+    const darkModeIsActive =
+      document.body.classList.contains(
+        "dark-mode"
+      );
+
+    applyTheme(!darkModeIsActive);
+  });
+}
+
+
+/* =========================================================
+   CHAPTER LEADER POPUP
+   ========================================================= */
+
+function closeChapterModal(rememberChoice = true) {
+  if (!chapterModal) return;
+
+  chapterModal.classList.remove("show");
+  chapterModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  if (rememberChoice) {
+    try {
+      sessionStorage.setItem(
+        "sparkwhyz-chapter-modal-seen",
+        "true"
+      );
+    } catch (error) {
+      console.warn(
+        "Popup preference could not be saved."
+      );
+    }
+  }
+}
+
+function openChapterModal() {
+  if (!chapterModal) return;
+
+  closeMenu();
+
+  chapterModal.classList.add("show");
+  chapterModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  const closeButton =
+    chapterModal.querySelector(".modal-close");
+
+  if (closeButton) {
+    closeButton.focus();
+  }
+}
+
+if (chapterModal) {
+  const closeButton =
+    chapterModal.querySelector(".modal-close");
+
+  const modalButton =
+    chapterModal.querySelector(".modal-btn");
+
+  let popupWasSeen = false;
+
+  try {
+    popupWasSeen =
+      sessionStorage.getItem(
+        "sparkwhyz-chapter-modal-seen"
+      ) === "true";
+  } catch (error) {
+    popupWasSeen = false;
+  }
+
+  chapterModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  if (!popupWasSeen) {
+    window.setTimeout(() => {
+      const menuIsOpen =
+        document.body.classList.contains(
+          "menu-open"
+        );
+
+      if (!menuIsOpen) {
+        openChapterModal();
+      }
+    }, 1200);
+  }
+
+  if (closeButton) {
+    closeButton.addEventListener("click", () => {
+      closeChapterModal(true);
+    });
+  }
+
+  if (modalButton) {
+    modalButton.addEventListener("click", () => {
+      closeChapterModal(true);
+    });
+  }
+
+  chapterModal.addEventListener(
+    "click",
+    (event) => {
+      if (event.target === chapterModal) {
+        closeChapterModal(true);
+      }
+    }
+  );
+}
+
+
+/* =========================================================
+   ESCAPE KEY
+   ========================================================= */
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+
+  if (
+    navLinks &&
+    navLinks.classList.contains("open")
+  ) {
+    closeMenu();
+  }
+
+  if (
+    chapterModal &&
+    chapterModal.classList.contains("show")
+  ) {
+    closeChapterModal(true);
+  }
+});
+
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+
+const revealElements =
+  document.querySelectorAll(".reveal");
+
+if (
+  "IntersectionObserver" in window &&
+  revealElements.length > 0
+) {
+  const revealObserver =
+    new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+  revealElements.forEach((element) => {
+    revealObserver.observe(element);
+  });
+} else {
+  revealElements.forEach((element) => {
+    element.classList.add("in-view");
+  });
+}
+
+
+/* =========================================================
+   CURRENT PAGE LINK
+   ========================================================= */
+
+const currentFile =
+  window.location.pathname.split("/").pop() ||
+  "index.html";
+
+document
+  .querySelectorAll(".nav-links a")
+  .forEach((link) => {
+    const href = link.getAttribute("href");
+
+    if (!href) return;
+
+    const linkFile = href.split("#")[0];
+
+    if (linkFile === currentFile) {
+      link.setAttribute("aria-current", "page");
+    }
+  });
+
+
+/* =========================================================
+   FOUNDING READERS
+   ========================================================= */
+
+const nameParticles = [
+  "de",
+  "del",
+  "la",
+  "le",
+  "van",
+  "von",
+  "der",
+  "den",
+  "di",
+  "da",
+  "do",
+  "dos",
+  "das",
+  "du",
+  "ter",
+  "ten",
+  "bin",
+  "ibn",
+  "al",
+  "el",
+  "y"
+];
+
+function formatFoundingReaderName(rawName) {
+  return rawName
+    .trim()
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .map((word, index) => {
+      const lower = word.toLowerCase();
+
+      if (
+        index > 0 &&
+        nameParticles.includes(lower)
+      ) {
+        return lower;
+      }
+
+      return lower.replace(
+        /(^|[-'])([a-z])/g,
+        (match, separator, letter) =>
+          separator + letter.toUpperCase()
+      );
+    })
+    .join(" ");
+}
+
+function isValidFoundingReaderEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(
+    email.trim()
+  );
+}
+
+function createFoundingReadersFrame() {
+  let frame = document.getElementById(
+    "foundingReadersFrame"
+  );
+
+  if (frame) return frame;
+
+  frame = document.createElement("iframe");
+
+  frame.id = "foundingReadersFrame";
+  frame.name = "foundingReadersFrame";
+  frame.title = "Founding Readers submission";
+  frame.style.display = "none";
+
+  document.body.appendChild(frame);
+
+  return frame;
+}
+
+function showFoundingReadersMessage(
+  form,
+  message,
+  type
+) {
+  let messageElement =
+    form.parentElement.querySelector(
+      ".founding-readers-message"
+    );
+
+  if (!messageElement) {
+    messageElement =
+      document.createElement("div");
+
+    messageElement.className =
+      "founding-readers-message";
+
+    form.insertAdjacentElement(
+      "afterend",
+      messageElement
+    );
+  }
+
+  messageElement.textContent = message;
+
+  messageElement.style.display = "block";
+  messageElement.style.marginTop = "18px";
+  messageElement.style.padding = "14px 16px";
+  messageElement.style.borderRadius = "9px";
+  messageElement.style.fontWeight = "700";
+  messageElement.style.fontSize = "0.9rem";
+  messageElement.style.textAlign = "center";
+
+  if (type === "success") {
+    messageElement.style.background =
+      "rgba(46, 125, 50, 0.18)";
+
+    messageElement.style.border =
+      "1px solid rgba(46, 125, 50, 0.4)";
+
+    messageElement.style.color = "#dcfce7";
+  } else {
+    messageElement.style.background =
+      "rgba(220, 38, 38, 0.16)";
+
+    messageElement.style.border =
+      "1px solid rgba(248, 113, 113, 0.4)";
+
+    messageElement.style.color = "#fecaca";
+  }
+}
+
+const foundingReaderForms =
+  document.querySelectorAll(
+    'form[data-founding-readers="true"]'
+  );
+
+foundingReaderForms.forEach((form) => {
+  const nameInput = form.querySelector(
+    '[name="name"]'
+  );
+
+  const emailInput = form.querySelector(
+    '[name="email"]'
+  );
+
+  const submitButton = form.querySelector(
+    'button[type="submit"]'
+  );
+
+  if (
+    !nameInput ||
+    !emailInput ||
+    !submitButton
+  ) {
+    return;
+  }
+
+  createFoundingReadersFrame();
+
+  form.action = FOUNDING_READERS_URL;
+  form.method = "POST";
+  form.target = "foundingReadersFrame";
+
+  form.addEventListener("submit", (event) => {
+    const formattedName =
+      formatFoundingReaderName(
+        nameInput.value
+      );
+
+    const formattedEmail =
+      emailInput.value
+        .trim()
+        .toLowerCase();
+
+    if (!formattedName) {
+      event.preventDefault();
+
+      showFoundingReadersMessage(
+        form,
+        "Please enter your first and last name.",
+        "error"
+      );
+
+      nameInput.focus();
+      return;
+    }
+
+    if (
+      !isValidFoundingReaderEmail(
+        formattedEmail
+      )
+    ) {
+      event.preventDefault();
+
+      showFoundingReadersMessage(
+        form,
+        "Please enter a valid email address.",
+        "error"
+      );
+
+      emailInput.focus();
+      return;
+    }
+
+    nameInput.value = formattedName;
+    emailInput.value = formattedEmail;
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Joining...";
+
+    showFoundingReadersMessage(
+      form,
+      "Submitting your information...",
+      "success"
+    );
+
+    /*
+      The form continues submitting normally to the
+      hidden iframe. We do not prevent the submission.
+      Since Apps Script already saves the information,
+      we show success without waiting for Google's
+      unreliable postMessage response.
+    */
+
+    window.setTimeout(() => {
+      showFoundingReadersMessage(
+        form,
+        "Thank you! You have joined the Founding Readers list.",
+        "success"
+      );
+
+      form.reset();
+
+      submitButton.disabled = false;
+      submitButton.textContent = "Join the List";
+    }, 1500);
+  });
+});
