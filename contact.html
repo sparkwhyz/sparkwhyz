@@ -11,7 +11,336 @@
   gtag('config', 'G-Q8JG7QYZ1H');
 </script>
   <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact SparkWhyz Foundation, follow us on Instagram, or support our youth-led wildfire prevention education through GoFundMe." />
+  <title>Contact Us | SparkWhyz Foundation</title>
 
+  <style>
+    :root {
+      --navy: #123f52;
+      --navy-dark: #0c3040;
+      --cream: #f4eddd;
+      --white: #ffffff;
+      --text: #123f52;
+      --border: rgba(18, 63, 82, 0.20);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      background: var(--navy);
+      padding: 58px 20px 70px;
+      text-align: center;
+    }
+
+    .hero-card {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 28px;
+      padding: 44px 28px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    .logo {
+      display: block;
+      width: min(360px, 85%);
+      max-height: 170px;
+      object-fit: contain;
+      margin: 0 auto 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-copy {
+      max-width: 570px;
+      margin: 0 auto 28px;
+      font-size: clamp(1rem, 2.7vw, 1.2rem);
+    }
+
+    .donate-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      min-height: 62px;
+      padding: 16px 28px;
+      border-radius: 4px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .donate-button:hover,
+    .donate-button:focus-visible {
+      background: var(--navy-dark);
+      transform: translateY(-2px);
+    }
+
+    .content {
+      flex: 1;
+      padding: 56px 20px 66px;
+      text-align: center;
+    }
+
+    .content-inner {
+      width: min(760px, 100%);
+      margin: 0 auto;
+    }
+
+    .section-title {
+      display: inline-block;
+      margin: 0 0 34px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid var(--navy);
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.08em;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .social-link {
+      width: 66px;
+      height: 66px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--navy);
+      border-radius: 50%;
+      background: transparent;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .social-link:hover,
+    .social-link:focus-visible {
+      background: var(--navy);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .social-link svg {
+      width: 32px;
+      height: 32px;
+      fill: currentColor;
+    }
+
+    .contact-card {
+      width: min(650px, 100%);
+      margin: 0 auto;
+      padding: 34px 24px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.44);
+    }
+
+    .contact-label {
+      margin: 0 0 8px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .email-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .mission-copy {
+      margin: 0 auto;
+      max-width: 590px;
+      font-size: clamp(1rem, 2.8vw, 1.16rem);
+    }
+
+    footer {
+      padding: 26px 20px 34px;
+      text-align: center;
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      font-size: 0.94rem;
+    }
+
+    footer p {
+      margin: 4px 0;
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 54px;
+      height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 1.7rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 30px 14px 45px;
+      }
+
+      .hero-card {
+        padding: 34px 20px;
+        border-radius: 22px;
+      }
+
+      .content {
+        padding: 44px 16px 58px;
+      }
+
+      .donate-button {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body id="top">
+  <div class="page">
+    <header class="hero">
+      <div class="hero-card">
+        <!-- Upload your SparkWhyz logo to /images/sparkwhyz-logo.png -->
+        <img
+          class="logo"
+          src="images/logo-transparent.png"
+          alt="SparkWhyz Foundation logo"
+        />
+
+        <p class="eyebrow">Be the spark that protects</p>
+        <h1>Contact SparkWhyz</h1>
+
+        <p class="hero-copy">
+          Connect with our youth-led foundation, follow our work, or help us
+          bring wildfire prevention education to more children and families.
+        </p>
+
+        <a
+          class="donate-button"
+          href="https://gofund.me/1323e7bd1"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Donate to SparkWhyz through GoFundMe"
+        >
+          DONATE
+        </a>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="content-inner">
+        <h2 class="section-title">CONNECT</h2>
+
+        <div class="social-links">
+          <a
+            class="social-link"
+            href="https://www.instagram.com/sparkwhyz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow SparkWhyz on Instagram"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5Zm9.75 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+            </svg>
+          </a>
+
+          <a
+            class="social-link"
+            href="mailto:contact@sparkwhyz.org"
+            aria-label="Email SparkWhyz"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 4h18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v.35l9 5.63 9-5.63V6H3Zm18 12V8.7l-8.47 5.29a1 1 0 0 1-1.06 0L3 8.7V18h18Z"/>
+            </svg>
+          </a>
+        </div>
+
+        <section class="contact-card" aria-labelledby="email-heading">
+          <p class="contact-label" id="email-heading">Email Us</p>
+
+          <a class="email-link" href="mailto:contact@sparkwhyz.org">
+            contact@sparkwhyz.org
+          </a>
+
+          <p class="mission-copy">
+            SparkWhyz Foundation is a nonprofit foundation dedicated to youth
+            leadership, wildfire prevention, and community education. All
+            contributions support our charitable mission and programs.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 SparkWhyz Foundation</p>
+      <p>Laguna Beach, California</p>
+    </footer>
+  </div>
+
+  <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
+</body>
+</html>
+  
+  <!-- commenting out - Mehr 7/23
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
