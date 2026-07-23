@@ -803,3 +803,109 @@ body.dark-mode .contact-support-card {
     text-align: center;
   }
 }
+/* Get Involved GoFundMe section */
+.gofundme-section {
+  background: var(--bg);
+}
+
+.gofundme-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.75fr);
+  gap: 45px;
+  align-items: center;
+  padding: 52px;
+  border-radius: 22px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+}
+
+.gofundme-content h2 {
+  max-width: 720px;
+  margin-bottom: 18px;
+  color: var(--navy);
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  line-height: 1.18;
+}
+
+.gofundme-content p {
+  max-width: 720px;
+  margin-bottom: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.gofundme-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 27px;
+}
+
+.gofundme-goal {
+  padding: 32px;
+  border-radius: 18px;
+  background: rgba(0, 128, 0, 0.08);
+  border: 1px solid rgba(0, 128, 0, 0.2);
+}
+
+.gofundme-goal-label {
+  display: block;
+  margin-bottom: 12px;
+  color: #008000;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gofundme-goal strong {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--navy);
+  font-family: "Sora", sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.gofundme-goal p {
+  margin: 0;
+  color: var(--muted);
+}
+
+body.dark-mode .gofundme-card {
+  background: #132b44;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .gofundme-content h2,
+body.dark-mode .gofundme-goal strong {
+  color: #ffffff;
+}
+
+body.dark-mode .gofundme-content p,
+body.dark-mode .gofundme-goal p {
+  color: #94a3b8;
+}
+
+body.dark-mode .gofundme-goal {
+  background: rgba(0, 128, 0, 0.15);
+  border-color: rgba(0, 128, 0, 0.3);
+}
+
+@media (max-width: 900px) {
+  .gofundme-card {
+    grid-template-columns: 1fr;
+    padding: 32px 25px;
+    gap: 28px;
+  }
+
+  .gofundme-actions {
+    flex-direction: column;
+  }
+
+  .gofundme-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
