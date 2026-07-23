@@ -1,17 +1,34 @@
 /* =========================================================
    SPARKWHYZ MAIN JAVASCRIPT
-   Navigation, dark mode, popup, animations, and forms
+   Navigation, theme, popup, animations, fundraising,
+   Founding Readers, and contact form
    ========================================================= */
 
 const navToggle = document.getElementById("navToggle");
 const navLinks = document.getElementById("navLinks");
-const chapterModal = document.getElementById("chapterModal");
+const chapterModal = document.getElementById(
+  "chapterModal"
+);
 const themeButton = document.getElementById(
   "themeToggleDesktop"
 );
 
+
+/* =========================================================
+   WEBSITE LINKS
+   ========================================================= */
+
+const GOFUNDME_URL =
+  "https://www.gofundme.com/f/get-our-book-into-el-morro-top-of-the-world-elementary";
+
 const FOUNDING_READERS_URL =
   "https://script.google.com/macros/s/AKfycbzE3uEk4XQtkb8qyEXPNrhavnNuOdf-xDej9qfDXaaHXr0CM6zMC1YZZFA1C1SL5hdo/exec";
+
+/*
+  Leave this empty until the separate Contact Form
+  Apps Script is created and deployed.
+*/
+const CONTACT_FORM_URL = "";
 
 
 /* =========================================================
@@ -121,6 +138,196 @@ window.addEventListener("resize", () => {
     closeMenu();
   }
 });
+
+
+/* =========================================================
+   AUTOMATIC GOFUNDME LINKS
+   ========================================================= */
+
+function isPledgeLink(link) {
+  if (!link) return false;
+
+  const href = String(
+    link.getAttribute("href") || ""
+  ).toLowerCase();
+
+  return (
+    href.includes("get_involved.html#pledge") ||
+    href.includes("get-involved.html#pledge") ||
+    href.includes("/get-involved/#pledge")
+  );
+}
+
+function createGoFundMeLink(className, text) {
+  const link = document.createElement("a");
+
+  link.href = GOFUNDME_URL;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = text;
+  link.className = className;
+  link.dataset.sparkwhyzGofundme = "true";
+
+  return link;
+}
+
+function addGoFundMeToNavigation() {
+  if (!navLinks) return;
+
+  const existingButton = navLinks.querySelector(
+    '[data-sparkwhyz-gofundme="true"], .nav-gofundme'
+  );
+
+  if (existingButton) return;
+
+  const pledgeButton = Array.from(
+    navLinks.querySelectorAll("a")
+  ).find((link) => {
+    return (
+      isPledgeLink(link) &&
+      link.classList.contains("nav-cta")
+    );
+  });
+
+  if (!pledgeButton) return;
+
+  const listItem = document.createElement("li");
+  listItem.className = "nav-action-item";
+
+  const goFundMeButton = createGoFundMeLink(
+    "nav-cta nav-gofundme",
+    "GoFundMe"
+  );
+
+  listItem.appendChild(goFundMeButton);
+
+  pledgeButton
+    .closest("li")
+    .insertAdjacentElement("afterend", listItem);
+}
+
+function addGoFundMeToDropdowns() {
+  document
+    .querySelectorAll(".dropdown")
+    .forEach((dropdown) => {
+      const existingLink = dropdown.querySelector(
+        '[data-sparkwhyz-gofundme="true"], a[href*="gofundme.com"]'
+      );
+
+      if (existingLink) return;
+
+      const pledgeLink = Array.from(
+        dropdown.querySelectorAll("a")
+      ).find(isPledgeLink);
+
+      if (!pledgeLink) return;
+
+      const listItem = document.createElement("li");
+
+      const goFundMeLink = createGoFundMeLink(
+        "",
+        "Support Our GoFundMe"
+      );
+
+      listItem.appendChild(goFundMeLink);
+
+      pledgeLink
+        .closest("li")
+        .insertAdjacentElement("afterend", listItem);
+    });
+}
+
+function addGoFundMeToFooters() {
+  document
+    .querySelectorAll("footer ul")
+    .forEach((list) => {
+      const pledgeLink = Array.from(
+        list.querySelectorAll("a")
+      ).find(isPledgeLink);
+
+      if (!pledgeLink) return;
+
+      const existingLink = list.querySelector(
+        '[data-sparkwhyz-gofundme="true"], a[href*="gofundme.com"]'
+      );
+
+      if (existingLink) return;
+
+      const listItem = document.createElement("li");
+
+      const goFundMeLink = createGoFundMeLink(
+        "",
+        "Support Our GoFundMe"
+      );
+
+      listItem.appendChild(goFundMeLink);
+
+      pledgeLink
+        .closest("li")
+        .insertAdjacentElement("afterend", listItem);
+    });
+}
+
+function addGoFundMeBesidePledgeButtons() {
+  document
+    .querySelectorAll("main a, section a")
+    .forEach((pledgeLink) => {
+      if (!isPledgeLink(pledgeLink)) return;
+
+      if (
+        pledgeLink.closest(
+          ".nav-links, footer, .dropdown"
+        )
+      ) {
+        return;
+      }
+
+      const buttonStyle =
+        pledgeLink.classList.contains("btn") ||
+        pledgeLink.classList.contains("nav-cta") ||
+        pledgeLink.classList.contains("modal-btn");
+
+      if (!buttonStyle) return;
+
+      const nextElement =
+        pledgeLink.nextElementSibling;
+
+      if (
+        nextElement &&
+        (
+          nextElement.dataset
+            .sparkwhyzGofundme === "true" ||
+          String(nextElement.href || "")
+            .includes("gofundme.com")
+        )
+      ) {
+        return;
+      }
+
+      const classes = Array.from(
+        pledgeLink.classList
+      );
+
+      if (!classes.includes("btn")) {
+        classes.push("btn");
+      }
+
+      const goFundMeLink = createGoFundMeLink(
+        `${classes.join(" ")} btn-gofundme`,
+        "Support Our GoFundMe"
+      );
+
+      pledgeLink.insertAdjacentElement(
+        "afterend",
+        goFundMeLink
+      );
+    });
+}
+
+addGoFundMeToNavigation();
+addGoFundMeToDropdowns();
+addGoFundMeToFooters();
+addGoFundMeBesidePledgeButtons();
 
 
 /* =========================================================
@@ -271,6 +478,7 @@ function closeChapterModal(rememberChoice = true) {
   if (!chapterModal) return;
 
   chapterModal.classList.remove("show");
+
   chapterModal.setAttribute(
     "aria-hidden",
     "true"
@@ -296,6 +504,7 @@ function openChapterModal() {
   closeMenu();
 
   chapterModal.classList.add("show");
+
   chapterModal.setAttribute(
     "aria-hidden",
     "false"
@@ -445,7 +654,10 @@ document
     const linkFile = href.split("#")[0];
 
     if (linkFile === currentFile) {
-      link.setAttribute("aria-current", "page");
+      link.setAttribute(
+        "aria-current",
+        "page"
+      );
     }
   });
 
@@ -478,7 +690,7 @@ const nameParticles = [
   "y"
 ];
 
-function formatFoundingReaderName(rawName) {
+function formatPersonName(rawName) {
   return rawName
     .trim()
     .replace(/\s+/g, " ")
@@ -502,24 +714,22 @@ function formatFoundingReaderName(rawName) {
     .join(" ");
 }
 
-function isValidFoundingReaderEmail(email) {
+function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(
     email.trim()
   );
 }
 
-function createFoundingReadersFrame() {
-  let frame = document.getElementById(
-    "foundingReadersFrame"
-  );
+function createHiddenFrame(frameId) {
+  let frame = document.getElementById(frameId);
 
   if (frame) return frame;
 
   frame = document.createElement("iframe");
 
-  frame.id = "foundingReadersFrame";
-  frame.name = "foundingReadersFrame";
-  frame.title = "Founding Readers submission";
+  frame.id = frameId;
+  frame.name = frameId;
+  frame.title = "Form submission";
   frame.style.display = "none";
 
   document.body.appendChild(frame);
@@ -551,32 +761,8 @@ function showFoundingReadersMessage(
   }
 
   messageElement.textContent = message;
-
+  messageElement.dataset.type = type;
   messageElement.style.display = "block";
-  messageElement.style.marginTop = "18px";
-  messageElement.style.padding = "14px 16px";
-  messageElement.style.borderRadius = "9px";
-  messageElement.style.fontWeight = "700";
-  messageElement.style.fontSize = "0.9rem";
-  messageElement.style.textAlign = "center";
-
-  if (type === "success") {
-    messageElement.style.background =
-      "rgba(46, 125, 50, 0.18)";
-
-    messageElement.style.border =
-      "1px solid rgba(46, 125, 50, 0.4)";
-
-    messageElement.style.color = "#dcfce7";
-  } else {
-    messageElement.style.background =
-      "rgba(220, 38, 38, 0.16)";
-
-    messageElement.style.border =
-      "1px solid rgba(248, 113, 113, 0.4)";
-
-    messageElement.style.color = "#fecaca";
-  }
 }
 
 const foundingReaderForms =
@@ -605,7 +791,7 @@ foundingReaderForms.forEach((form) => {
     return;
   }
 
-  createFoundingReadersFrame();
+  createHiddenFrame("foundingReadersFrame");
 
   form.action = FOUNDING_READERS_URL;
   form.method = "POST";
@@ -613,9 +799,7 @@ foundingReaderForms.forEach((form) => {
 
   form.addEventListener("submit", (event) => {
     const formattedName =
-      formatFoundingReaderName(
-        nameInput.value
-      );
+      formatPersonName(nameInput.value);
 
     const formattedEmail =
       emailInput.value
@@ -635,11 +819,7 @@ foundingReaderForms.forEach((form) => {
       return;
     }
 
-    if (
-      !isValidFoundingReaderEmail(
-        formattedEmail
-      )
-    ) {
+    if (!isValidEmail(formattedEmail)) {
       event.preventDefault();
 
       showFoundingReadersMessage(
@@ -664,14 +844,6 @@ foundingReaderForms.forEach((form) => {
       "success"
     );
 
-    /*
-      The form continues submitting normally to the
-      hidden iframe. We do not prevent the submission.
-      Since Apps Script already saves the information,
-      we show success without waiting for Google's
-      unreliable postMessage response.
-    */
-
     window.setTimeout(() => {
       showFoundingReadersMessage(
         form,
@@ -684,5 +856,173 @@ foundingReaderForms.forEach((form) => {
       submitButton.disabled = false;
       submitButton.textContent = "Join the List";
     }, 1500);
+  });
+});
+
+
+/* =========================================================
+   CONTACT FORM
+   ========================================================= */
+
+function showContactMessage(
+  form,
+  message,
+  type
+) {
+  const messageElement =
+    form.querySelector(
+      ".contact-form-message"
+    );
+
+  if (!messageElement) return;
+
+  messageElement.textContent = message;
+  messageElement.dataset.type = type;
+  messageElement.style.display = "block";
+}
+
+const contactForms =
+  document.querySelectorAll(
+    'form[data-contact-form="true"]'
+  );
+
+contactForms.forEach((form) => {
+  const nameInput = form.querySelector(
+    '[name="name"]'
+  );
+
+  const emailInput = form.querySelector(
+    '[name="email"]'
+  );
+
+  const topicInput = form.querySelector(
+    '[name="topic"]'
+  );
+
+  const messageInput = form.querySelector(
+    '[name="message"]'
+  );
+
+  const submitButton = form.querySelector(
+    'button[type="submit"]'
+  );
+
+  if (
+    !nameInput ||
+    !emailInput ||
+    !topicInput ||
+    !messageInput ||
+    !submitButton
+  ) {
+    return;
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formattedName =
+      formatPersonName(nameInput.value);
+
+    const formattedEmail =
+      emailInput.value
+        .trim()
+        .toLowerCase();
+
+    const topic = topicInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!formattedName) {
+      showContactMessage(
+        form,
+        "Please enter your full name.",
+        "error"
+      );
+
+      nameInput.focus();
+      return;
+    }
+
+    if (!isValidEmail(formattedEmail)) {
+      showContactMessage(
+        form,
+        "Please enter a valid email address.",
+        "error"
+      );
+
+      emailInput.focus();
+      return;
+    }
+
+    if (!topic) {
+      showContactMessage(
+        form,
+        "Please enter a topic.",
+        "error"
+      );
+
+      topicInput.focus();
+      return;
+    }
+
+    if (!message) {
+      showContactMessage(
+        form,
+        "Please enter your message.",
+        "error"
+      );
+
+      messageInput.focus();
+      return;
+    }
+
+    if (!CONTACT_FORM_URL) {
+      showContactMessage(
+        form,
+        "The contact form is not connected yet. Please email contact@sparkwhyz.org for now.",
+        "error"
+      );
+
+      return;
+    }
+
+    nameInput.value = formattedName;
+    emailInput.value = formattedEmail;
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+
+    showContactMessage(
+      form,
+      "Sending your message...",
+      "success"
+    );
+
+    const formData = new FormData(form);
+
+    fetch(CONTACT_FORM_URL, {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    })
+      .then(() => {
+        showContactMessage(
+          form,
+          "Thank you! Your message has been sent to the SparkWhyz team.",
+          "success"
+        );
+
+        form.reset();
+      })
+      .catch(() => {
+        showContactMessage(
+          form,
+          "We could not send your message. Please email contact@sparkwhyz.org.",
+          "error"
+        );
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send Message";
+      });
   });
 });
