@@ -1593,5 +1593,103 @@
 
   <script src="js/main.js"></script>
 
+  <!-- Mehr added 7/27/26 -->
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const pledgeForm = document.getElementById("pledgeForm");
+
+    if (!pledgeForm) {
+      return;
+    }
+
+    const submitButton = document.getElementById("pledgeSubmit");
+    const message = document.getElementById("pledgeMessage");
+
+    /*
+      Replace the URL below with the Google Apps Script
+      Web app URL that ends in /exec.
+    */
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbxFCMCjCIT_DMamXw32iDOwxZNzFYjFDw36OZx5FlJYAtnRETX4f4iv_-kpYD2Zr5ow/exec";
+
+    pledgeForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const nameInput = document.getElementById("pledgeName");
+      const emailInput = document.getElementById("pledgeEmail");
+      const cityInput = document.getElementById("pledgeCity");
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const city = cityInput.value.trim();
+
+      if (!name || !email || !city) {
+        message.textContent =
+          "Please complete your name, email address, and city.";
+        message.style.color = "#b42318";
+        return;
+      }
+
+      if (!emailInput.checkValidity()) {
+        message.textContent =
+          "Please enter a valid email address.";
+        message.style.color = "#b42318";
+        emailInput.focus();
+        return;
+      }
+
+      if (
+        !SCRIPT_URL ||
+        SCRIPT_URL.includes("PASTE_YOUR")
+      ) {
+        message.textContent =
+          "The pledge form has not been connected yet.";
+        message.style.color = "#b42318";
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+
+      message.textContent =
+        "Submitting your pledge...";
+      message.style.color = "";
+
+      try {
+        const formData = new FormData(pledgeForm);
+        const requestBody = new URLSearchParams(formData);
+
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: requestBody
+        });
+
+        pledgeForm.reset();
+
+        message.textContent =
+          "Thank you for signing the SparkWhyz Pledge!";
+        message.style.color = "#157347";
+
+        submitButton.textContent = "Pledge Signed";
+
+        window.setTimeout(function () {
+          submitButton.disabled = false;
+          submitButton.textContent = "Sign the Pledge";
+        }, 3000);
+
+      } catch (error) {
+        console.error("Pledge submission error:", error);
+
+        message.textContent =
+          "We could not submit your pledge. Please try again.";
+        message.style.color = "#b42318";
+
+        submitButton.disabled = false;
+        submitButton.textContent = "Sign the Pledge";
+      }
+    });
+  });
+</script>
 </body>
 </html>
