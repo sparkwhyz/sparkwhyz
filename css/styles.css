@@ -1866,3 +1866,14 @@ body.dark-mode .signup-form input {
     transform: none;
   }
 }
+<!-- Added By Mehr 7/27/26 -->
+.btn-secondary {
+  background-color: #ffffff;
+  color: #173757;
+  border: 2px solid #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: #f2f4f7;
+  color: #173757;
+}
