@@ -1877,3 +1877,10 @@ body.dark-mode .signup-form input {
   background-color: #f2f4f7;
   color: #173757;
 }
+@media (max-width: 768px) {
+  .hero-actions .btn.btn-secondary {
+    background-color: #ffffff !important;
+    color: #173757 !important;
+    border: 2px solid #ffffff !important;
+  }
+}
