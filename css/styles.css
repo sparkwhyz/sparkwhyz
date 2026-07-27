@@ -1877,3 +1877,29 @@ body.dark-mode .signup-form input {
   background-color: #f2f4f7;
   color: #173757;
 }
+.hero-actions .btn.btn-secondary {
+  display: flex;
+  background-color: #ffffff;
+  color: #173757;
+  border: 2px solid #ffffff;
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero-actions .btn.btn-secondary:hover,
+.hero-actions .btn.btn-secondary:focus,
+.hero-actions .btn.btn-secondary:active {
+  background-color: #f2f4f7;
+  color: #173757;
+  border-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .hero-actions .btn.btn-secondary {
+    display: flex;
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #173757 !important;
+    border: 2px solid #ffffff !important;
+  }
+}
