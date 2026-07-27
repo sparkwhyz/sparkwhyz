@@ -417,6 +417,7 @@
               environment.
             </p>
 
+<!-- Commented out by Mehr 7/27/26
             <form id="pledgeForm" novalidate>
 
               <div class="form-row">
@@ -488,7 +489,110 @@
               </p>
 
             </form>
-
+            -->
+              <form id="pledgeForm" novalidate>
+              
+                <div class="form-row">
+              
+                  <label for="pledgeName">
+                    Full Name
+                  </label>
+              
+                  <input
+                    type="text"
+                    id="pledgeName"
+                    name="name"
+                    placeholder="Your name"
+                    autocomplete="name"
+                    maxlength="100"
+                    required
+                  >
+              
+                </div>
+              
+              
+                <div class="form-row">
+              
+                  <label for="pledgeEmail">
+                    Email Address
+                  </label>
+              
+                  <input
+                    type="email"
+                    id="pledgeEmail"
+                    name="email"
+                    placeholder="Your email"
+                    autocomplete="email"
+                    maxlength="150"
+                    required
+                  >
+              
+                </div>
+              
+              
+                <div class="form-row">
+              
+                  <label for="pledgeCity">
+                    City
+                  </label>
+              
+                  <input
+                    type="text"
+                    id="pledgeCity"
+                    name="city"
+                    placeholder="Your city"
+                    autocomplete="address-level2"
+                    maxlength="100"
+                    required
+                  >
+              
+                </div>
+              
+              
+                <!-- Hidden spam-protection field -->
+                <div
+                  aria-hidden="true"
+                  style="
+                    position: absolute;
+                    left: -9999px;
+                    width: 1px;
+                    height: 1px;
+                    overflow: hidden;
+                  "
+                >
+                  <label for="pledgeWebsite">
+                    Website
+                  </label>
+              
+                  <input
+                    type="text"
+                    id="pledgeWebsite"
+                    name="website"
+                    tabindex="-1"
+                    autocomplete="off"
+                  >
+                </div>
+              
+              
+                <button
+                  type="submit"
+                  class="form-submit"
+                  id="pledgeSubmit"
+                >
+                  Sign the Pledge
+                </button>
+              
+              
+                <p
+                  class="form-note"
+                  id="pledgeMessage"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Your information will be securely submitted to SparkWhyz.
+                </p>
+              
+              </form>
           </div>
 
         </div>
