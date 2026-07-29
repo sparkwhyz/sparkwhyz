@@ -1890,3 +1890,20 @@ body.dark-mode .signup-form input {
   object-fit: cover;
   object-position: center top;
 }
+.team-photo {
+  width: 100%;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #102940;
+}
+
+.team-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
