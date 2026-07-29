@@ -1931,3 +1931,11 @@ body.dark-mode .signup-form input {
     object-position: center top;
   }
 }
+@media (max-width: 768px) {
+  .team-photo img.kiyan-photo {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+}
