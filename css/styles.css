@@ -1940,3 +1940,90 @@ body.dark-mode .signup-form input {
     object-position: center top !important;
   }
 }
+
+/* Mehr 7/30/26 Press page article cards */
+
+.press-section {
+  padding: 70px 0;
+  background: #f7f8fa;
+}
+
+.press-section h1 {
+  margin-bottom: 32px;
+}
+
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.press-card {
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #dfe4e8;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(16, 41, 64, 0.08);
+}
+
+.press-source {
+  margin: 0 0 10px;
+  color: #e57924;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.press-card h2 {
+  margin: 0 0 10px;
+  color: #102940;
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+.press-date {
+  margin: 0 0 18px;
+  color: #687785;
+  font-size: 15px;
+}
+
+.press-description {
+  margin: 0 0 24px;
+  color: #3f4d59;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.press-link {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #102940;
+  color: #ffffff;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.press-link:hover {
+  background: #e57924;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .press-section {
+    padding: 45px 0;
+  }
+
+  .press-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .press-card {
+    padding: 24px;
+  }
+
+  .press-card h2 {
+    font-size: 23px;
+  }
+}
