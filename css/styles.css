@@ -1866,7 +1866,7 @@ body.dark-mode .signup-form input {
     transform: none;
   }
 }
-<!-- Added By Mehr 7/27/26 -->
+/* Added by Mehr */
 .btn-secondary {
   background-color: #ffffff;
   color: #173757;
@@ -1884,7 +1884,7 @@ body.dark-mode .signup-form input {
     border: 2px solid #ffffff !important;
   }
 }
-<!-- Added by Mehr 7/30/26 to fix photo rendering in our about our team section 
+/* Added by Mehr 7/30/26 to fix photo rendering in our about our team section */
 /* Team photos */
 
 .team-photo {
